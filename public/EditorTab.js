@@ -72,7 +72,11 @@ class EditorTab {
 
     setActive() {
         if (!this.isActive()) {
-            this.#element.className = 'editor-title active'
+            console.log('Adding active class to the element')
+            console.log(this)
+            console.log(this.#element)
+            this.#element.classList.add('active');
+            console.log(this.#element)
         }
     }
 

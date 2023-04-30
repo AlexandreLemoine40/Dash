@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="210mm"
+   height="297mm"
+   viewBox="0 0 210 297"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.2.2 (732a01da63, 2022-12-09, custom)"
+   sodipodi:docname="logo.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.77593294"
+     inkscape:cx="340.23559"
+     inkscape:cy="562.54861"
+     inkscape:window-width="1920"
+     inkscape:window-height="1016"
+     inkscape:window-x="1920"
+     inkscape:window-y="27"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2" />
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#ffffff;fill-opacity:1;stroke:#c43fff;stroke-width:4.32874;stroke-opacity:1"
+       id="rect6019"
+       width="93.928619"
+       height="124.90358"
+       x="47.685905"
+       y="46.562683"
+       inkscape:export-filename="logo"
+       inkscape:export-xdpi="212"
+       inkscape:export-ydpi="212" />
+    <rect
+       style="fill:#c43fff;fill-opacity:1;stroke-width:5.27455"
+       id="rect2292"
+       width="11.72169"
+       height="110.45291"
+       x="55.128551"
+       y="53.420063" />
+    <rect
+       style="fill:#c43fff;fill-opacity:1;stroke-width:3.94175"
+       id="rect2292-6"
+       width="62.757744"
+       height="11.521399"
+       x="71.467918"
+       y="152.08739" />
+    <rect
+       style="fill:#c43fff;fill-opacity:1;stroke-width:3.83697"
+       id="rect2292-6-7"
+       width="62.757744"
+       height="10.917034"
+       x="71.496559"
+       y="53.435669" />
+    <rect
+       style="fill:#c43fff;fill-opacity:1;stroke-width:5.39377"
+       id="rect2292-3"
+       width="12.652316"
+       height="107.00679"
+       x="135.9736"
+       y="-8.259222"
+       transform="matrix(0.87624366,0.48186828,-0.48345202,0.87537086,0,0)" />
+  </g>
+</svg>

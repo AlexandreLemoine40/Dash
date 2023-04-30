@@ -1,0 +1,13 @@
+class {{CLASSNAME}} {{EXTENDS}}{
+    {{STATIC_MEMBERS_SECTION}}
+
+    {{MEMBERS_SECTION}}
+
+    constructor({{PARAMS}}) {
+        {{MEMBERS_INITIALIZATION}}
+    }
+
+    {{GETTERS_SECTION}}
+
+    {{SETTERS_SECTION}}
+}

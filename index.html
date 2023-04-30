@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="./styles/style.css">
+    <link href="./styles/fa/css/fontawesome.css" rel="stylesheet">
+    <link href="./styles/fa/css/brands.css" rel="stylesheet">
+    <link href="./styles/fa/css/solid.css" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/line.css">
+    <title>Dash</title>
+    <style>
+        body {
+            background-color: rgb(50, 50, 50);
+            font-size: 14px;
+            color: lightgrey;
+        }
+
+        .hljs-keyword {
+            color: rgb(241, 122, 10);
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        .hljs-variable {
+            color: rgb(255, 145, 0);
+            background-color: rgba(250, 183, 0, 0.192);
+        }
+
+        .hljs-title {
+            color: rgb(144, 165, 230);
+            font-weight: 900;
+        }
+
+        .hljs-string {
+            color: rgb(75, 165, 75);
+        }
+
+        .hljs-property {
+            font-style: italic;
+            color: crimson;
+        }
+
+        .hljs-number {
+            color: rgb(255, 81, 0)
+        }
+
+        .hljs-comma {
+            color: rgb(255, 145, 0);
+        }
+
+        .hljs-subst {
+            color: lightcoral;
+        }
+
+        .hljs-built_in {
+            font-style: italic;
+            color: rgb(241, 122, 10);
+        }
+
+        .hljs-comment {
+            color: rgb(150, 150, 150);
+        }
+
+        .hljs-attr {
+            color: slateblue;
+            text-decoration: underline;
+        }
+
+        .hljs-tag>.hljs-name {
+            color: crimson;
+        }
+
+        .hljs-params {
+            font-style: italic;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title-bar">
+        <div class="head">
+            <div class="head-title">Dash Code Editor <!--span id="version-number">v0.23.03.30-Beta</span--></div>
+        </div>
+        <div class="window-icons">
+            <div class="window-icon" id="close-window-icon">
+                <i class="fa-solid fa-xmark"></i>
+            </div>
+        </div>
+    </div>
+    <div class="container" id="panels-container">
+
+        <div id="home-view">
+            <div style="text-decoration: underline;">
+                <b>No</b> file is opened
+            </div>
+            <div>
+                <b><i>Ctrl+b</i></b> : toggle the TreeView
+            </div>
+            <div>
+                <b><i>Ctrl+o</i></b> : toggle the quick file search
+            </div>
+            <div style="text-decoration: underline;">
+                or
+            </div>
+            <div>
+                <button class="btn">
+                    Browse files
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <div class="color-white">
+            <span id="project-name">~/Personnel/dev/ide/idiz/</span>
+            <i class="fa-solid fa-code-branch"></i> <span id="branch-name">master</span>
+        </div>
+        <div class="color-white">
+        </div>
+        <div class="color-white" id="theme-mode">
+            <i class="fa-solid fa-question"></i>
+            <i class="fa-solid fa-gears"></i>
+        </div>
+    </div>
+    <div id="modals-container">
+        <div id="open-project-modal" class="modal">
+            <div class="modal-header">
+                Open Project or file
+            </div>
+            <div class="modal-body" id="open-project-body">
+                <div id="open-project">
+                    <button class="btn" onclick="window.electronAPI.openProject()">Open project <i
+                            class="fa-solid fa-folder-open"></i></button>
+                </div>
+                <div id="open-file">
+                    <button class="btn" onclick="window.electronAPI.toggleOpenFile()">Open file <i
+                            class="fa-solid fa-file"></i></button>
+                </div>
+                <div id="new-file">
+                    <button class="btn" onclick="EditorsManager.openNewFile()">New file <i
+                            class="fa-solid fa-plus"></i></button>
+                </div>
+            </div>
+        </div>
+        <div id="tree-modal" class="modal">
+            <div class="modal-header" id="tree-modal-title">
+
+            </div>
+            <div class="modal-body">
+                <div id="search-file">
+                    <input type="text" id="tree-search-file" onkeyup="Tree.search(this.value)"
+                        placeholder="Search file">
+                </div>
+                <div id="project-tree">
+
+                </div>
+            </div>
+        </div>
+        <div id="quick-file-search-modal" class="modal">
+            <div class="modal-body">
+                <div id="quick-search-file">
+                    <input type="text" id="quick-search-file-input" onkeyup="" placeholder="Search file">
+                </div>
+                <div id="quick-file-search-results">
+                    <div class="quick-file-search-item">
+                        <span class="quick-search-file-icon"><i class="fa-brands fa-js"></i></span>&nbsp;<span
+                            class="quick-search-file-name">index.js</span>&nbsp;<span
+                            class="quick-search-file-path">/home/alex/Dash/</span>
+                    </div>
+                    <div class="quick-file-search-item">
+                        <span class="quick-search-file-icon"><i class="fa-brands fa-html5"></i></span>&nbsp;<span
+                            class="quick-search-file-name">index.html</span>&nbsp;<span
+                            class="quick-search-file-path">/home/alex/Dash/public/</span>
+                    </div>
+                    <div class="quick-file-search-item">
+                        <span class="quick-search-file-icon"><i class="fa-brands fa-css3"></i></span>&nbsp;<span
+                            class="quick-search-file-name">style.css</span>&nbsp;<span
+                            class="quick-search-file-path">/home/alex/Dash/public/</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="./public/highlight/highlight.min.js"></script>
+    <script src="./public/IPCManager.js"></script>
+    <script src="./public/Line.js"></script>
+    <script src="./public/Lines.js"></script>
+    <script src="./public/EditorTab.js"></script>
+    <script src="./public/TextDisplay.js"></script>
+    <script src="./public/TextEditor.js"></script>
+    <script src="./public/Editor.js"></script>
+    <script src="./public/EditorsManager.js"></script>
+    <script src="./public/ModalsManager.js"></script>
+    <script src="./public/Directory.js"></script>
+    <script src="./public/File.js"></script>
+    <script src="./public/Tree.js"></script>
+    <script src="./public/Panel.js"></script>
+    <script src="./public/Panels.js"></script>
+    <script src="./public/renderer.js"></script>
+    <script>
+        document.addEventListener('keydown', (event) => {
+            if (event.ctrlKey && event.key == 'b') {
+                ModalsManager.toggleTreeModal()
+            }
+            if (event.ctrlKey && event.key == 'o') {
+                ModalsManager.toggleQuickSearchModal()
+            }
+            if (event.key == 'Escape') {
+                ModalsManager.hideModals()
+            }
+        })
+    </script>
+</body>
+
+</html>

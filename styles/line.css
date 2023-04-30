@@ -1,0 +1,17 @@
+.lines-container {
+    margin: 0px;
+    width: 2em;
+    height: 100%;
+    font-family: 'DashJetMono', Courier, monospace;
+    font-size: 15px;
+    padding-right: 5px;
+    text-align: right;
+    line-height: 19px;
+}
+
+.line {
+    color: var(--main-bg-color);
+    font-family: 'DashJetMono', Courier, monospace;
+    font-size: 15px;
+    user-select: none;
+}

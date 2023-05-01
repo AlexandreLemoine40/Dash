@@ -99,14 +99,15 @@ class ModalsManager {
         content.setAttribute('folded', true)
         d.appendChild(content)
         header.onclick = (e) => {
-            if (content.getAttribute('folded') == 'true') {
+            if (window.getComputedStyle(content).getPropertyValue('display') == 'none') {
+                // if (content.getAttribute('folded') == 'true') {
                 e.target.firstChild.className = ModalsManager.downCaret
                 content.style.display = 'grid'
-                content.setAttribute('folded', false)
+                // content.setAttribute('folded', false)
             } else {
                 e.target.firstChild.className = ModalsManager.rightCaret
                 content.style.display = 'none'
-                content.setAttribute('folded', true)
+                // content.setAttribute('folded', true)
             }
         }
         for (let i = 0; i < directory.content.length; i++) {

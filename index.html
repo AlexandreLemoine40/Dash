@@ -152,8 +152,7 @@
             </div>
             <div class="modal-body">
                 <div id="search-file">
-                    <input type="text" id="tree-search-file" onkeyup="Tree.search(this.value)"
-                        placeholder="Search file">
+                    <input type="text" id="tree-search-file" placeholder="Search file">
                 </div>
                 <div id="project-tree">
 
@@ -212,6 +211,12 @@
             if (event.key == 'Escape') {
                 ModalsManager.hideModals()
             }
+        })
+
+        document.getElementById('tree-search-file').addEventListener('keyup', (event) => {
+            if (!event.ctrlKey && event.key != 'b') {
+            }
+            Tree.search(event.target.value)
         })
     </script>
 </body>

@@ -23,19 +23,18 @@ class Directory {
     search(filter) {
         let nbMatches = 0
         let nbSubmatches = 0
-        if (filter.length > 2) {
+        if (filter.length > 0) {
             for (let i = 0; i < this.#content.length; i++) {
                 const element = this.#content[i];
                 if (element.isDirectory()) {
                     nbSubmatches = element.search(filter)
                 } else if (element.matches(filter)) {
                     // unfold all parent directories
+                    element.show()
                     nbMatches++
                 } else {
                     // Hide element in treeview
-                    if (filter.length > 2) {
-                        element.hide()
-                    }
+                    element.hide()
                 }
             }
             if (nbMatches == 0 && nbSubmatches == 0) {
@@ -46,24 +45,38 @@ class Directory {
             }
         } else {
             for (let i = 0; i < this.#content.length; i++) {
-                this.#content[i].show()
-                if (this.#content[i].isDirectory()) {
-                    this.#content[i].fold()
-                }
+                this.#content[i].reset()
             }
         }
         return nbMatches + nbSubmatches
     }
 
-    fold(e) {
+    fold() {
         // Caret right & content display = none;
         // Has to access the element object through e.target to achieve changing its class
         // e.target.firstChild.className = Directory.rightCaretClass
         this.#contentElement.style.display = 'none'
     }
 
+    reset() {
+        this.fold()
+        this.showChildren()
+        this.show()
+    }
+
     show() {
         this.#element.style.display = 'initial'
+    }
+
+    showChildren() {
+        for (let i = 0; i < this.#content.length; i++) {
+            let element = this.#content[i];
+            element.show()
+            if (element.isDirectory()) {
+                element.fold()
+                element.showChildren()
+            }
+        }
     }
 
     hide() {

@@ -65,17 +65,17 @@ class Panel {
     addFile(file) {
         if (!this.#editors.get(file.name)) {
             let editor = new Editor(file.name, file.content, file.path);
-            editor.getTab().element.onclick = () => {
+            editor.getTab().element.onclick = (event) => {
                 if (this.#activeEditor.id != editor.id) {
                     this.switch(editor)
                 }
             }
-            editor.getTab().closeElement.onclick = () => {
+            editor.getTab().closeElement.onclick = (event) => {
+                event.stopPropagation()
                 this.closeFile(editor)
             }
             for (const [key, value] of this.#editors) {
                 value.hide()
-                value.getTab().setInactive()
             }
             this.#editors.set(file.path, editor)
             this.#tabsContainer.appendChild(editor.getTab().element)
@@ -126,9 +126,6 @@ class Panel {
         this.#editors.delete(editor.filePath)
         if (this.#editors.size > 0) {
             this.#activeEditor = Array.from(this.#editors.values()).pop()
-            let e = document.getElementById(`tab-${this.#activeEditor.getTab().editorId}`)
-            console.log(e)
-            e.classList.add('active')
             this.switch(this.#activeEditor)
         } else {
             this.close()

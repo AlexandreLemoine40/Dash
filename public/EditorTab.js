@@ -72,18 +72,13 @@ class EditorTab {
 
     setActive() {
         if (!this.isActive()) {
-            console.log('Adding active class to the element')
-            console.log(this)
-            console.log(this.#element)
-            this.#element.classList.add('active');
-            console.log(this.#element)
+            this.#element.classList.add(EditorTab.TAB_ACTIVE_CLASS);
         }
     }
 
     setInactive() {
-        let classList = this.getClassList();
         if (this.isActive()) {
-            classList.remove(EditorTab.TAB_ACTIVE_CLASS);
+            this.#element.classList.remove(EditorTab.TAB_ACTIVE_CLASS);
         }
     }
 

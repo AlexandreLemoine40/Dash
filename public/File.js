@@ -54,6 +54,10 @@ class File {
         // Remove file from ACT
     }
 
+    reset() {
+        this.show()
+    }
+
     show() {
         this.#element.style.display = 'block'
     }

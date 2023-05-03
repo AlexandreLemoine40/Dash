@@ -83,7 +83,7 @@
 <body>
     <div class="title-bar">
         <div class="head">
-            <div class="head-title">Dash Code Editor <!--span id="version-number">v0.23.03.30-Beta</span--></div>
+            <div class="head-title">Dash Code Editor <span id="project-name"></span></div>
         </div>
         <div class="window-icons">
             <div class="window-icon" id="close-window-icon">
@@ -115,15 +115,23 @@
     </div>
 
     <div class="footer">
+        <!-- TODO : Remove project path from this bar, put it into the window title & put the icons aligned to the left -->
         <div class="color-white">
-            <span id="project-name">~/Personnel/dev/ide/idiz/</span>
-            <i class="fa-solid fa-code-branch"></i> <span id="branch-name">master</span>
+            <span class="taskbar-item">
+                <i class="fa-regular fa-folder-open"></i> Browse a new project
+            </span>
+            <span class="taskbar-item">
+                <i class="fa-solid fa-question"></i> Help
+            </span>
+            <span class="taskbar-item">
+                <i class="fa-solid fa-gears"></i> Settings
+            </span>
+            <span class="taskbar-item">
+                <i class="fa-solid fa-code-branch"></i> <span id="branch-name">master</span>
+            </span>
         </div>
         <div class="color-white">
-        </div>
-        <div class="color-white" id="theme-mode">
-            <i class="fa-solid fa-question"></i>
-            <i class="fa-solid fa-gears"></i>
+            May 2nd, 14:32
         </div>
     </div>
     <div id="modals-container">
@@ -148,7 +156,6 @@
         </div>
         <div id="tree-modal" class="modal">
             <div class="modal-header" id="tree-modal-title">
-
             </div>
             <div class="modal-body">
                 <div id="search-file">
@@ -160,26 +167,15 @@
             </div>
         </div>
         <div id="quick-file-search-modal" class="modal">
+            <div class="modal-header" id="tree-modal-title">
+                Open file (press shift for new panel)
+            </div>
             <div class="modal-body">
                 <div id="quick-search-file">
                     <input type="text" id="quick-search-file-input" onkeyup="" placeholder="Search file">
                 </div>
-                <div id="quick-file-search-results">
-                    <div class="quick-file-search-item">
-                        <span class="quick-search-file-icon"><i class="fa-brands fa-js"></i></span>&nbsp;<span
-                            class="quick-search-file-name">index.js</span>&nbsp;<span
-                            class="quick-search-file-path">/home/alex/Dash/</span>
-                    </div>
-                    <div class="quick-file-search-item">
-                        <span class="quick-search-file-icon"><i class="fa-brands fa-html5"></i></span>&nbsp;<span
-                            class="quick-search-file-name">index.html</span>&nbsp;<span
-                            class="quick-search-file-path">/home/alex/Dash/public/</span>
-                    </div>
-                    <div class="quick-file-search-item">
-                        <span class="quick-search-file-icon"><i class="fa-brands fa-css3"></i></span>&nbsp;<span
-                            class="quick-search-file-name">style.css</span>&nbsp;<span
-                            class="quick-search-file-path">/home/alex/Dash/public/</span>
-                    </div>
+                <div id="quick-search-file-results">
+
                 </div>
             </div>
         </div>
@@ -208,15 +204,89 @@
             if (event.ctrlKey && event.key == 'o') {
                 ModalsManager.toggleQuickSearchModal()
             }
+            if (event.ctrlKey && event.shiftKey && event.key == 'O') {
+                ModalsManager.toggleQuickSearchModal()
+            }
             if (event.key == 'Escape') {
                 ModalsManager.hideModals()
             }
         })
 
         document.getElementById('tree-search-file').addEventListener('keyup', (event) => {
-            if (!event.ctrlKey && event.key != 'b') {
-            }
             Tree.search(event.target.value)
+        })
+
+        let selectedQuickSearchResultItem = null
+        let limitQuickSearchResultItem
+        let matches = []
+        document.getElementById('quick-search-file-input').addEventListener('keydown', (event) => {
+            if (event.key == 'ArrowDown' || event.key == 'ArrowUp') {
+                event.preventDefault()
+            }
+        })
+        document.getElementById('quick-search-file-input').addEventListener('keyup', (event) => {
+            if (event.key == 'Enter') {
+                // Open the selected file
+                if (event.shiftKey) {
+                    // Open in a new panel
+                    let file = matches[selectedQuickSearchResultItem]
+                    window.electronAPI.openFile(`${file.path}/${file.name}`).then((data) => {
+                        EditorsManager.openFileInNewPanel({
+                            name: data.fileName,
+                            content: data.fileContent,
+                            path: data.filePath
+                        })
+                        ModalsManager.hideModals()
+                        // ModalsManager.hideTreeModal()
+                    })
+                } else {
+                    // Open in the current panel
+                    let file = matches[selectedQuickSearchResultItem]
+                    window.electronAPI.openFile(`${file.path}/${file.name}`).then((data) => {
+                        EditorsManager.openFile({
+                            name: data.fileName,
+                            content: data.fileContent,
+                            path: data.filePath
+                        })
+                        ModalsManager.hideModals()
+                        // ModalsManager.hideTreeModal()
+                    })
+                }
+                selectedQuickSearchResultItem = null
+                limitQuickSearchResultItem = undefined
+                matches = []
+                document.getElementById('quick-search-file-input').value = ''
+                document.getElementById('quick-search-file-results').innerHTML = ''
+            } else if (event.key == 'ArrowDown') {
+                event.preventDefault()
+                // Move down the selected
+                if (selectedQuickSearchResultItem < limitQuickSearchResultItem - 1) {
+                    document.querySelectorAll('.quick-file-search-item')[selectedQuickSearchResultItem].classList.remove('active')
+                    selectedQuickSearchResultItem++
+                    document.querySelectorAll('.quick-file-search-item')[selectedQuickSearchResultItem].classList.add('active')
+                }
+            } else if (event.key == 'ArrowUp') {
+                event.preventDefault()
+                // Move up the selected
+                if (selectedQuickSearchResultItem > 0) {
+                    document.querySelectorAll('.quick-file-search-item')[selectedQuickSearchResultItem].classList.remove('active')
+                    selectedQuickSearchResultItem--
+                    document.querySelectorAll('.quick-file-search-item')[selectedQuickSearchResultItem].classList.add('active')
+                }
+
+            } else if (event.target.value.length > 0) {
+                matches = ModalsManager.quickSearch(Tree.getInstance().root, event.target.value)
+                if (matches.length > 0) {
+                    ModalsManager.buildQuickSearchResult(matches)
+                    selectedQuickSearchResultItem = 0
+                    document.querySelectorAll('.quick-file-search-item')[selectedQuickSearchResultItem].classList.add('active')
+                    limitQuickSearchResultItem = matches.length
+                }
+                // Set the active result as first of the list (active class with background color)
+
+            } else {
+                document.getElementById('quick-search-file-results').innerHTML = ''
+            }
         })
     </script>
 </body>

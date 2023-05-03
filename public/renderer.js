@@ -17,7 +17,7 @@ window.electronAPI.onFileSaved((_event, arg) => {
 })
 
 window.electronAPI.askPreferencies().then((data) => {
-    document.getElementById('project-name').innerHTML = data.directory
+    document.getElementById('project-name').innerHTML = `- ${data.directory}`
     new Tree(data.project)
     ModalsManager.setTreeModalTitle(data.directory)
     if (data.filesOpened.length > 0 && !(data.filesOpened.length == 1 && data.filesOpened[0] == '')) {

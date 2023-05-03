@@ -20,6 +20,10 @@ class Directory {
         this.createElement()
     }
 
+    get name() {
+        return this.#name
+    }
+
     search(filter) {
         let nbMatches = 0
         let nbSubmatches = 0

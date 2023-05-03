@@ -4,7 +4,7 @@ class Tree {
     #treeElement;
 
     constructor(act = undefined) {
-        if(Tree.instance) {
+        if (Tree.instance) {
             return Tree.instance
         } else {
             this.#act = act ? act : [];
@@ -24,6 +24,10 @@ class Tree {
 
     static getInstance() {
         return Tree.instance;
+    }
+
+    get root() {
+        return this.#root
     }
 
     search(filter) {

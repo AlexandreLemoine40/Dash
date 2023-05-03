@@ -45,6 +45,14 @@ class File {
         // Socket
     }
 
+    get name() {
+        return this.#name
+    }
+
+    get path() {
+        return this.#path
+    }
+
     rename(name) {
         this.#name = name
     }
@@ -98,6 +106,33 @@ class File {
 
     isDirectory() {
         return false
+    }
+
+    buildQuickSearchResult() {
+        /**
+         *  <div class="quick-file-search-item">
+                <span class="quick-search-file-icon"><i class="fa-brands fa-js"></i></span>&nbsp;
+                <span class="quick-search-file-name">index.js</span>&nbsp;
+                <span class="quick-search-file-path">/home/alex/Dash/</span>
+            </div>
+        */
+        let element = document.createElement('div')
+        element.className = "quick-file-search-item"
+        let iconContainer = document.createElement('span')
+        iconContainer.className = "quick-search-file-icon"
+        let icon = document.createElement('i')
+        icon.className = this.#icon
+        iconContainer.appendChild(icon)
+        let name = document.createElement('span')
+        name.className = "quick-search-file-name"
+        name.innerHTML = this.#name + "&nbsp;"
+        let path = document.createElement('span')
+        path.className = "quick-search-file-path"
+        path.innerHTML = this.#path
+        element.appendChild(icon)
+        element.appendChild(name)
+        element.appendChild(path)
+        return element
     }
 
     getElement() {

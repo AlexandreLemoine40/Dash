@@ -17,7 +17,7 @@ const buildTree = (dir) => {
     for (let i = 0; i < rows.length; i++) {
         const row = rows[i];
         if (row.isDirectory()) {
-            act.content.push(buildTree(`${act.path.length > 0 ? act.path + '/' : ''}${act.name}/${row.name}`))
+            if (!row.name.startsWith('.')) act.content.push(buildTree(`${act.path.length > 0 ? act.path + '/' : ''}${act.name}/${row.name}`))
         } else {
             act.content.push(row.name)
         }
@@ -143,6 +143,9 @@ const createWindow = () => {
     })
 
     ipcMain.handle('preferencies', (event, file) => {
+        // Retrieve project path from ~/.dash/project.txt
+        // If file does not exist, take the process path as project path
+        // If user opens a project using the browser, define the file ~/.dash/project.txt with the project's path as content
         let currentPreferenciesPath = path.join(__dirname, '.dash/')
         let filesOpened = []
         if (fs.existsSync(currentPreferenciesPath)) {

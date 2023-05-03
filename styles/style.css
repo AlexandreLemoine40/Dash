@@ -29,6 +29,11 @@ body {
     line-height: 19px;
 }
 
+.taskbar-item {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
 .filetype {
     margin-left: 15px;
 }
@@ -325,6 +330,7 @@ pre {
     height: calc(97% - 30px);
     /** transform: translate(-50%, -50%); */
     background-color: rgba(120, 120, 120, 0.3);
+    z-index: 3;
 }
 
 #branch-name {
@@ -396,6 +402,7 @@ pre {
     padding: 15px;
     border-bottom: solid 3px var(--main-bg-color);
     border-radius: 15px;
+    z-index: 4;
 }
 
 .file-icon {
@@ -427,18 +434,58 @@ input:focus {
 
 #quick-file-search-modal {
     width: 40vw;
-    top: 8%;
+    top: 2%;
+    transform: translate(-50%, 0%);
+}
+
+#quick-file-search-modal>.modal-header {
+    color: var(--main-bg-color);
+    margin-left: 0;
+    margin-right: unset;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#quick-file-search-modal.modal-body {
+    grid-template-rows: auto auto;
+}
+
+#quick-search-file-results {
+    max-height: 30vh;
+    overflow: auto;
+}
+
+#quick-search-file-results::-webkit-scrollbar-track {
+    background-color: #F5F5F5;
+}
+
+#quick-search-file-results::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F5F5F5;
+}
+
+#quick-search-file-results::-webkit-scrollbar-thumb {
+    background-color: var(--main-bg-color);
 }
 
 .quick-file-search-item {
     color: var(--main-bg-color);
     font-size: 16px;
     opacity: 1;
+    padding: 5px;
+}
+
+.quick-file-search-item.active {
+    background-color: rgb(169, 190, 250);
 }
 
 .quick-file-search-item:hover {
     cursor: pointer;
     opacity: 0.7;
+}
+
+.quick-search-file-name {
+    margin-left: 5px;
 }
 
 #quick-search-file-input {

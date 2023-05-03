@@ -9,6 +9,7 @@ class ModalsManager {
     static isQuickSearchModalShown = false
     static isTreeModalShown = false
     static HomeModal = document.getElementById('open-project-modal')
+    static quickSearchResultContainer = document.getElementById('quick-search-file-results')
 
     static toggleTreeModal() {
         if (ModalsManager.isTreeModalShown) {
@@ -45,6 +46,8 @@ class ModalsManager {
             const modal = modals[i];
             modal.style.display = 'none'
         }
+        ModalsManager.isQuickSearchModalShown = false
+        ModalsManager.isTreeModalShown = false
         document.getElementById('modals-container').style.display = 'none'
     }
 
@@ -133,5 +136,27 @@ class ModalsManager {
 
     static setTreeModalTitle(title) {
         ModalsManager.treeModalTitle.innerHTML = title
+    }
+
+    static quickSearch(path, filter) {
+        let matches = []
+        for (let i = 0; i < path.getContent().length; i++) {
+            const row = path.getContent()[i];
+            if (row.isDirectory()) {
+                matches = matches.concat(ModalsManager.quickSearch(row, filter))
+            } else if (row.name.startsWith(filter)) {
+                matches.push(row)
+            }
+        }
+        return matches
+    }
+
+    static buildQuickSearchResult(matches) {
+        ModalsManager.quickSearchResultContainer.innerHTML = ''
+        for (let i = 0; i < matches.length; i++) {
+            const match = matches[i];
+            let element = match.buildQuickSearchResult()
+            ModalsManager.quickSearchResultContainer.appendChild(element)
+        }
     }
 }

@@ -10,7 +10,7 @@
 }
 
 .line {
-    color: var(--main-bg-color);
+    color: var(--main-color);
     font-family: 'DashJetMono', Courier, monospace;
     font-size: 15px;
     user-select: none;

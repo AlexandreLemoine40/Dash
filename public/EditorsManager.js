@@ -36,5 +36,5 @@ class EditorsManager {
     static openFileInNewPanel(file) {
         let p = Panels.createPanel()
         p.addFile(file)
-    }
+   }
 }

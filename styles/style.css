@@ -5,18 +5,82 @@
 
 * {
     font-family: 'DashJetMono', Courier, monospace;
-    /** --main-bg-color: rgb(46, 139, 87);
-    --main-bg-color-code: 46, 139, 87; */
-    /** --main-bg-color: blueviolet; */
-    /** --main-bg-color: slateblue; */
-    /** --main-bg-color: rgb(220, 20, 60); */
-    /** --main-bg-color-code: 220, 20, 60; */
-    --main-bg-color-code-darker: 41, 65, 139;
-    --main-bg-color-code: 65, 105, 225;
-    --main-bg-color-darker: rgb(41, 65, 139);
-    --main-bg-color: royalblue;
+    /** --main-color: rgb(46, 139, 87);
+    --main-color-code: 46, 139, 87; */
+    /** --main-color: blueviolet; */
+    /** --main-color: slateblue; */
+    /** --main-color: rgb(220, 20, 60); */
+    /** --main-color-code: 220, 20, 60; */
+    --main-color-code-darker: 41, 65, 139;
+    --main-color-code: 65, 105, 225;
+    --main-color-darker: rgb(41, 65, 139);
+    --main-color: royalblue;
+    --bg-color: white;
+    --text-over-bg-color: darkslategray;
+    /*--bg-color: rgb(61, 69, 88);
+    --text-over-bg-color: white;*/
+    /** --bg-color: white; */
 }
 
+.hljs-keyword {
+            color: rgb(241, 122, 10);
+            font-style: italic;
+            font-weight: 600;
+        }
+
+        .hljs-variable {
+            color: rgb(255, 145, 0);
+            background-color: rgba(250, 183, 0, 0.192);
+        }
+
+        .hljs-title {
+            color: rgb(144, 165, 230);
+            font-weight: 900;
+        }
+
+        .hljs-string {
+            color: rgb(75, 165, 75);
+        }
+
+        .hljs-property {
+            font-style: italic;
+            color: crimson;
+        }
+
+        .hljs-number {
+            color: rgb(255, 81, 0)
+        }
+
+        .hljs-comma {
+            color: rgb(255, 145, 0);
+        }
+
+        .hljs-subst {
+            color: lightcoral;
+        }
+
+        .hljs-built_in {
+            font-style: italic;
+            color: rgb(241, 122, 10);
+        }
+
+        .hljs-comment {
+            color: rgb(150, 150, 150);
+        }
+
+        .hljs-attr {
+            color: slateblue;
+            text-decoration: underline;
+        }
+
+        .hljs-tag>.hljs-name {
+            color: crimson;
+        }
+
+        .hljs-params {
+            font-style: italic;
+        }
+        
 html {
     height: 100%;
     overflow: hidden;
@@ -27,6 +91,7 @@ body {
     margin: 0px;
     height: 100%;
     line-height: 19px;
+    background-color: var(--bg-color);
 }
 
 .taskbar-item {
@@ -60,12 +125,12 @@ body {
 }
 
 .tree-view {
-    background-color: white;
-    border-right: solid 1px var(--main-bg-color);
+    background-color: var(--bg-color);
+    border-right: solid 1px var(--main-color);
 }
 
 .editor-view {
-    background-color: white;
+    /** background-color: white;*/
     overflow: hidden;
 }
 
@@ -78,8 +143,8 @@ body {
 }
 
 .view-title {
-    color: var(--main-bg-color);
-    border-bottom: solid 3px var(--main-bg-color);
+    color: var(--main-color);
+    border-bottom: solid 3px var(--main-color);
     padding: 10px;
     padding-left: 15px;
     padding-right: 15px;
@@ -95,7 +160,6 @@ body {
     overflow: auto;
     grid-template-columns: auto 1fr;
     padding-top: 15px;
-    background-color: whitesmoke;
     border-radius: 10px;
 }
 
@@ -116,7 +180,7 @@ body {
 }
 
 .add-editor {
-    color: var(--main-bg-color);
+    color: var(--main-color);
     padding-top: 10px;
     padding-bottom: 10px;
     padding-left: 15px;
@@ -127,9 +191,9 @@ body {
 
 .editor-title {
     width: fit-content;
-    border-bottom: solid 3px var(--main-bg-color);
+    border-bottom: solid 3px var(--main-color);
     background-color: transparent;
-    color: var(--main-bg-color);
+    color: var(--main-color);
     transition: 0.3s;
 }
 
@@ -149,7 +213,7 @@ body {
     top: 0;
     height: 5px;
     width: 50px;
-    background-color: var(--main-bg-color);
+    background-color: var(--main-color);
 }
 
 .editor-title:not(:first-child) {
@@ -157,17 +221,17 @@ body {
 }
 
 .editor-title.active {
-    color: var(--main-bg-color-darker);
+    color: var(--main-color-darker);
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    border-color: var(--main-bg-color-darker);
+    border-color: var(--main-color-darker);
 }
 
 .editor-title:hover {
     background-color: rgba(239, 225, 254, 0.3);
     cursor: pointer;
-    border-color: var(--main-bg-color);
-    color: var(--main-bg-color);
+    border-color: var(--main-color);
+    color: var(--main-color);
     opacity: 0.6;
 }
 
@@ -188,10 +252,11 @@ body {
 #home-view {
     display: none;
     background-color: white;
+
 }
 
 #home-view>div {
-    color: var(--main-bg-color);
+    color: var(--main-color);
     text-align: center;
     line-height: 80px;
     font-size: 45px;
@@ -200,11 +265,11 @@ body {
 #home-view>div>button {
     /* display: none; */
     font-size: 45px;
-    color: white;
+    color: var(--text-over-bg-color);
 }
 
 .close-element:hover {
-    box-shadow: 0 0 2em var(--main-bg-color);
+    box-shadow: 0 0 2em var(--main-color);
 }
 
 .editor-view {
@@ -238,7 +303,7 @@ body {
 }
 
 .code-container {
-    color: rgb(70, 70, 70);
+    color: var(--text-over-bg-color);
     font-family: 'DashJetMono', Courier, monospace;
     font-size: 15px;
     height: 100%;
@@ -251,15 +316,13 @@ body {
     cursor: pointer;
 }
 
-pre {
-    background-color: whitesmoke;
-}
-
 .container {
     display: flex;
     width: 100%;
     height: calc(97% - 30px);
     overflow: hidden;
+    justify-content: center;
+    /** background: white; */
 }
 
 .title-bar {
@@ -268,7 +331,7 @@ pre {
     justify-content: space-between;
     width: 100%;
     height: 30px;
-    background-color: var(--main-bg-color);
+    background-color: var(--main-color);
     user-select: none;
     /* border: solid 2px blueviolet; */
 }
@@ -295,6 +358,7 @@ pre {
     width: 50px;
     height: 100%;
     position: relative;
+    transition-duration: .3s;
 }
 
 .window-icon:hover {
@@ -309,7 +373,7 @@ pre {
 }
 
 ::placeholder {
-    color: var(--main-bg-color);
+    color: var(--main-color);
 }
 
 #minimize-window:hover,
@@ -319,6 +383,7 @@ pre {
 
 #close-window-icon:hover {
     background-color: red;
+    color: white;
 }
 
 #modals-container {
@@ -344,7 +409,7 @@ pre {
     justify-content: space-between;
     width: 100%;
     height: 3%;
-    background-color: var(--main-bg-color);
+    background-color: var(--main-color);
     user-select: none;
 }
 
@@ -367,12 +432,12 @@ pre {
     resize: none;
     padding: 0px;
     line-height: 19px;
-    caret-color: var(--main-bg-color);
+    caret-color: var(--main-color);
 }
 
 .file-content::selection {
     color: transparent;
-    background: rgba(var(--main-bg-color-code), 0.4);
+    background: rgba(var(--main-color-code), 0.4);
 }
 
 .editor::-webkit-scrollbar-track {
@@ -385,7 +450,7 @@ pre {
 }
 
 .editor::-webkit-scrollbar-thumb {
-    background-color: var(--main-bg-color);
+    background-color: var(--main-color);
 }
 
 .modal {
@@ -397,16 +462,18 @@ pre {
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
-    background-color: ghostwhite;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    /** background-color: ghostwhite; */
+    background-color: rgb(41, 43, 73);
+    /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;*/
+    box-shadow: rgba(255, 255, 255, 0.753) 0px 8px 24px;
     padding: 15px;
-    border-bottom: solid 3px var(--main-bg-color);
+    border-bottom: solid 3px var(--main-color);
     border-radius: 15px;
     z-index: 4;
 }
 
 .file-icon {
-    color: var(--main-bg-color);
+    color: var(--main-color);
 }
 
 #tree-modal {
@@ -417,6 +484,10 @@ pre {
     z-index: 3;
 }
 
+#tree-modal>.modal-body {
+    grid-template-rows: auto 1fr auto;
+}
+
 #tree-search-file {
     padding: 5px;
     transition: 0.150s;
@@ -425,7 +496,8 @@ pre {
     margin-left: auto;
     margin-right: auto;
     background-color: transparent;
-    border-bottom: solid 2px var(--main-bg-color);
+    border: solid 1px var(--main-color);
+    border-radius: 3px;
 }
 
 input:focus {
@@ -439,7 +511,7 @@ input:focus {
 }
 
 #quick-file-search-modal>.modal-header {
-    color: var(--main-bg-color);
+    color: var(--main-color);
     margin-left: 0;
     margin-right: unset;
     padding-top: 5px;
@@ -455,6 +527,12 @@ input:focus {
     overflow: auto;
 }
 
+#search-file {
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    column-gap: 5px;
+}
+
 #quick-search-file-results::-webkit-scrollbar-track {
     background-color: #F5F5F5;
 }
@@ -465,11 +543,11 @@ input:focus {
 }
 
 #quick-search-file-results::-webkit-scrollbar-thumb {
-    background-color: var(--main-bg-color);
+    background-color: var(--main-color);
 }
 
 .quick-file-search-item {
-    color: var(--main-bg-color);
+    color: var(--main-color);
     font-size: 16px;
     opacity: 1;
     padding: 5px;
@@ -490,7 +568,7 @@ input:focus {
 
 #quick-search-file-input {
     width: calc(100% - 12px);
-    border: solid 1px var(--main-bg-color);
+    border: solid 1px var(--main-color);
     border-radius: 5px;
     padding: 5px;
     margin-bottom: 15px;
@@ -504,12 +582,12 @@ input:focus {
 }
 
 input {
-    color: var(--main-bg-color);
+    color: var(--main-color);
 }
 
 .directory,
 .directory-item {
-    color: var(--main-bg-color);
+    color: var(--main-color);
 }
 
 .directory-content {
@@ -522,6 +600,11 @@ input {
     overflow: hidden;
 }
 
+.project-tree-actions {
+    color: var(--main-color);
+    font-size: 20px;
+}
+
 #project-tree::-webkit-scrollbar-track {
     background-color: #F5F5F5;
 }
@@ -532,7 +615,7 @@ input {
 }
 
 #project-tree::-webkit-scrollbar-thumb {
-    background-color: var(--main-bg-color);
+    background-color: var(--main-color);
 }
 
 #project-tree {
@@ -551,7 +634,7 @@ input {
 }
 
 .modal-header {
-    color: var(--main-bg-color);
+    color: var(--main-color);
     margin-left: auto;
     margin-right: auto;
     padding-top: 15px;
@@ -573,7 +656,7 @@ input {
 
 .btn {
     border-radius: 0px;
-    background-color: var(--main-bg-color);
+    background-color: var(--main-color);
     border: none;
     color: white;
     padding: 15px;

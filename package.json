@@ -1,19 +1,27 @@
 {
-  "name": "my-electron-app",
+  "name": "dash-code-editor",
   "version": "1.0.0",
-  "description": "",
+  "description": "Dash code Editor",
   "main": "index.js",
   "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "electron-forge start",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "@electron-forge/cli": "^6.1.1",
+    "@electron-forge/maker-deb": "^6.1.1",
+    "@electron-forge/maker-rpm": "^6.1.1",
+    "@electron-forge/maker-squirrel": "^6.1.1",
+    "@electron-forge/maker-zip": "^6.1.1",
     "electron": "^23.2.0"
   },
   "dependencies": {
     "bootstrap-icons": "^1.10.4",
+    "electron-squirrel-startup": "^1.0.0",
     "prismjs": "^1.29.0"
   }
 }

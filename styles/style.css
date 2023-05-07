@@ -641,7 +641,6 @@ input:focus {
 #quick-search-file-input {
     width: calc(100% - 12px);
     border: solid 1px var(--main-color);
-    border-left: solid 2px;
     border-radius: 5px;
     padding: 5px;
     margin-bottom: 15px;

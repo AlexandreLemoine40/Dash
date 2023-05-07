@@ -1,5 +1,5 @@
 class Directory {
-    static rightCaretClass = "fa-solid fa-caret-right"
+    static rightCaretClass = "fa-sharp fa-solid fa-caret-right"
     static downCaretClass = "fa-solid fa-caret-down"
 
     #name;

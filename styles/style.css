@@ -23,64 +23,98 @@
 }
 
 .hljs-keyword {
-            color: rgb(241, 122, 10);
-            font-style: italic;
-            font-weight: 600;
-        }
+    color: rgb(241, 122, 10);
+    font-style: italic;
+    font-weight: 600;
+}
 
-        .hljs-variable {
-            color: rgb(255, 145, 0);
-            background-color: rgba(250, 183, 0, 0.192);
-        }
+.hljs-variable {
+    color: rgb(255, 145, 0);
+    background-color: rgba(250, 183, 0, 0.192);
+}
 
-        .hljs-title {
-            color: rgb(144, 165, 230);
-            font-weight: 900;
-        }
+.hljs-title {
+    color: rgb(144, 165, 230);
+    font-weight: 900;
+}
 
-        .hljs-string {
-            color: rgb(75, 165, 75);
-        }
+.hljs-string {
+    color: rgb(75, 165, 75);
+}
 
-        .hljs-property {
-            font-style: italic;
-            color: crimson;
-        }
+.hljs-property {
+    font-style: italic;
+    color: crimson;
+}
 
-        .hljs-number {
-            color: rgb(255, 81, 0)
-        }
+.hljs-number {
+    color: rgb(255, 81, 0)
+}
 
-        .hljs-comma {
-            color: rgb(255, 145, 0);
-        }
+.hljs-comma {
+    color: rgb(255, 145, 0);
+}
 
-        .hljs-subst {
-            color: lightcoral;
-        }
+.hljs-subst {
+    color: lightcoral;
+}
 
-        .hljs-built_in {
-            font-style: italic;
-            color: rgb(241, 122, 10);
-        }
+.hljs-built_in {
+    font-style: italic;
+    color: rgb(241, 122, 10);
+}
 
-        .hljs-comment {
-            color: rgb(150, 150, 150);
-        }
+.hljs-comment {
+    color: rgb(150, 150, 150);
+}
 
-        .hljs-attr {
-            color: slateblue;
-            text-decoration: underline;
-        }
+.hljs-attr {
+    color: slateblue;
+    text-decoration: underline;
+}
 
-        .hljs-tag>.hljs-name {
-            color: crimson;
-        }
+.hljs-tag>.hljs-name {
+    color: crimson;
+}
 
-        .hljs-params {
-            font-style: italic;
-        }
-        
+.hljs-params {
+    font-style: italic;
+}
+
+.panel-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    border-bottom: solid 1px var(--main-color);
+}
+
+.panel-actions {
+    display: flex;
+    color: var(--main-color);
+    border-left: solid 1px var(--main-color);
+    background-color: white;
+}
+
+.close-panel {
+    padding: 5px;
+    margin: auto;
+}
+
+.panel-action {
+    display: flex;
+    height: 100%;
+    width: 40px;
+}
+
+.panel-action:hover {
+    color: white;
+    background-color: var(--main-color);
+}
+
+.split-panel {
+    padding: 5px;
+    margin: auto;
+}
+
 html {
     height: 100%;
     overflow: hidden;
@@ -97,6 +131,11 @@ body {
 .taskbar-item {
     padding-left: 5px;
     padding-right: 5px;
+}
+
+.taskbar-item:hover {
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 .filetype {
@@ -132,6 +171,7 @@ body {
 .editor-view {
     /** background-color: white;*/
     overflow: hidden;
+    border-left: solid 1px var(--main-color);
 }
 
 .tree-view-item {
@@ -176,7 +216,7 @@ body {
     padding-left: 5px;
     padding-right: 5px;
     user-select: none;
-    overflow: visible;
+    overflow: hidden;
 }
 
 .add-editor {
@@ -194,7 +234,6 @@ body {
     border-bottom: solid 3px var(--main-color);
     background-color: transparent;
     color: var(--main-color);
-    transition: 0.3s;
 }
 
 .titles-scrollbar {
@@ -228,11 +267,9 @@ body {
 }
 
 .editor-title:hover {
-    background-color: rgba(239, 225, 254, 0.3);
+    background-color: var(--main-color);
     cursor: pointer;
-    border-color: var(--main-color);
-    color: var(--main-color);
-    opacity: 0.6;
+    color: white;
 }
 
 .close-element {
@@ -269,7 +306,7 @@ body {
 }
 
 .close-element:hover {
-    box-shadow: 0 0 2em var(--main-color);
+    box-shadow: 0 0 2em white;
 }
 
 .editor-view {
@@ -326,9 +363,9 @@ body {
 }
 
 .title-bar {
-    display: flex;
+    display: grid;
     color: white;
-    justify-content: space-between;
+    grid-template-columns: 1fr auto;
     width: 100%;
     height: 30px;
     background-color: var(--main-color);
@@ -338,6 +375,7 @@ body {
 
 .head {
     height: 30px;
+    -webkit-app-region: drag;
 }
 
 .head-title {
@@ -347,7 +385,6 @@ body {
 }
 
 .window-icons {
-    width: 33%;
     height: 100%;
     display: flex;
     justify-content: end;
@@ -365,6 +402,11 @@ body {
     cursor: pointer;
 }
 
+.window-icon:hover {
+    background-color: white;
+    color: var(--main-color);
+}
+
 .window-icon>i {
     position: absolute;
     left: 50%;
@@ -374,6 +416,26 @@ body {
 
 ::placeholder {
     color: var(--main-color);
+}
+
+#make-directory {
+    font-size: 24px;
+    padding: 10px;
+}
+
+#make-directory:hover {
+    background-color: var(--main-color);
+    color: white;
+}
+
+#create-file {
+    font-size: 24px;
+    padding: 10px;
+}
+
+#create-file:hover {
+    background-color: var(--main-color);
+    color: white;
 }
 
 #minimize-window:hover,
@@ -463,9 +525,9 @@ body {
     top: 50%;
     transform: translate(-50%, -50%);
     /** background-color: ghostwhite; */
-    background-color: rgb(41, 43, 73);
+    background-color: var(--bg-color);
     /* box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;*/
-    box-shadow: rgba(255, 255, 255, 0.753) 0px 8px 24px;
+    box-shadow: rgba(168, 168, 168, 0.753) 0px 8px 24px;
     padding: 15px;
     border-bottom: solid 3px var(--main-color);
     border-radius: 15px;
@@ -485,19 +547,19 @@ body {
 }
 
 #tree-modal>.modal-body {
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto 1fr;
 }
 
 #tree-search-file {
     padding: 5px;
     transition: 0.150s;
-    border: none;
     width: calc(100% - 14px);
     margin-left: auto;
     margin-right: auto;
     background-color: transparent;
     border: solid 1px var(--main-color);
-    border-radius: 3px;
+    border-left: solid 2px var(--main-color);
+    border-radius: 5px;
 }
 
 input:focus {
@@ -529,8 +591,14 @@ input:focus {
 
 #search-file {
     display: grid;
+    color: var(--main-color);
     grid-template-columns: 1fr auto auto;
-    column-gap: 5px;
+    column-gap: 10px;
+}
+
+.vertical-align {
+    margin-top: auto;
+    margin-bottom: auto;
 }
 
 #quick-search-file-results::-webkit-scrollbar-track {
@@ -548,9 +616,13 @@ input:focus {
 
 .quick-file-search-item {
     color: var(--main-color);
-    font-size: 16px;
+    font-size: 14px;
     opacity: 1;
     padding: 5px;
+}
+
+.quick-search-file-path {
+    font-size: 12px;
 }
 
 .quick-file-search-item.active {
@@ -569,6 +641,7 @@ input:focus {
 #quick-search-file-input {
     width: calc(100% - 12px);
     border: solid 1px var(--main-color);
+    border-left: solid 2px;
     border-radius: 5px;
     padding: 5px;
     margin-bottom: 15px;
@@ -626,7 +699,6 @@ input {
 
 .directory {
     width: calc(100% - 2px);
-    background-color: ghostwhite;
 }
 
 .directory-header:hover {

@@ -64,6 +64,14 @@ class Editor {
         return this.#filepath
     }
 
+    get fileName() {
+        return this.#fileName
+    }
+
+    get fileContent() {
+        return this.#fileContent
+    }
+
     get id() {
         return this.#id
     }

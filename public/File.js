@@ -88,16 +88,7 @@ class File {
         f.innerHTML = `<i class='${this.#icon} file-icon'></i> ${file}`
         f.onclick = () => {
             window.electronAPI.openFile(`${this.#path}/${this.#name}`).then((data) => {
-                EditorsManager.openFile({
-                    name: data.fileName,
-                    content: data.fileContent,
-                    path: data.filePath
-                })
-                /*EditorsManager.openFile({
-                    name: data.fileName,
-                    content: data.fileContent,
-                    path: data.filePath
-                })*/
+                EditorsManager.openFile(data)
                 ModalsManager.hideTreeModal()
             })
         }

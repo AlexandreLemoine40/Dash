@@ -7,20 +7,27 @@
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0">
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="./styles/style.css">
-    <link href="./styles/fa/css/fontawesome.css" rel="stylesheet">
-    <link href="./styles/fa/css/brands.css" rel="stylesheet">
-    <link href="./styles/fa/css/solid.css" rel="stylesheet">
+    <link rel="stylesheet" href="./styles/fa/all.css">
+    <link rel="stylesheet" href="./styles/fa/sharp-solid.css">
+    <link rel="stylesheet" href="./styles/fa/sharp-regular.css">
+    <link rel="stylesheet" href="./styles/fa/sharp-light.css">
     <link rel="stylesheet" href="./styles/line.css">
-    <title>Dash</title>
+    <title>DashJS</title>
 </head>
 
 <body>
     <div class="title-bar">
         <div class="head">
-            <div class="head-title">Dash <span id="project-name"></span></div>
+            <div class="head-title">DashJS <span id="project-name"></span></div>
         </div>
         <div class="window-icons">
-            <div class="window-icon" id="close-window-icon">
+            <div class="window-icon" onclick="window.electronAPI.minimizeWindow()">
+                <i class="fa-sharp fa-light fa-window-minimize"></i>
+            </div>
+            <div class="window-icon" id="maximize-window-icon" onclick="window.electronAPI.maximizeWindow()">
+                <i class="fa-sharp fa-light fa-window-restore"></i>
+            </div>
+            <div class="window-icon" id="close-window-icon" onclick="window.electronAPI.closeWindow()">
                 <i class="fa-solid fa-xmark"></i>
             </div>
         </div>
@@ -52,20 +59,21 @@
         <!-- TODO : Remove project path from this bar, put it into the window title & put the icons aligned to the left -->
         <div class="color-white">
             <span class="taskbar-item">
-                <i class="fa-regular fa-folder-open"></i> Browse a new project
+                <i class="fa-sharp fa-light fa-folders"></i> Browse a new project
             </span>
             <span class="taskbar-item">
-                <i class="fa-solid fa-question"></i> Help
-            </span>
-            <span class="taskbar-item">
-                <i class="fa-solid fa-gears"></i> Settings
-            </span>
-            <span class="taskbar-item">
-                <i class="fa-solid fa-code-branch"></i> <span id="branch-name">master</span>
+                <i class="fa-light fa-code-branch"></i>
+                <span id="branch-name">master</span>
             </span>
         </div>
         <div class="color-white">
-            May 2nd, 14:32
+            <span class="taskbar-item"><i class="fa-duotone fa-moon"></i> Dark mode</span>
+            <span class="taskbar-item">
+                <i class="fa-light fa-question"></i> Help
+            </span>
+            <span class="taskbar-item">
+                <i class="fa-light fa-wrench"></i> Settings
+            </span>
         </div>
     </div>
     <div id="modals-container">
@@ -92,13 +100,13 @@
             <div class="modal-header" id="tree-modal-title">
             </div>
             <div class="modal-body">
-                <div id="search-file">
+                <div id="search-file" style="display: none;">
                     <input type="text" id="tree-search-file" placeholder="Search file">
-                    <div>
-                        <i class="fa-solid fa-folder-plus"></i>
+                    <div id="make-directory" class="vertical-align">
+                        <i class="fa-sharp fa-light fa-folder-plus"></i>
                     </div>
-                    <div>
-                        <i class="fa-solid fa-file-circle-plus"></i>
+                    <div id="create-file" class="vertical-align">
+                        <i class="fa-sharp fa-light fa-file-plus"></i>
                     </div>
                 </div>
                 <div id="project-tree">
@@ -171,25 +179,16 @@
                     // Open in a new panel
                     let file = matches[selectedQuickSearchResultItem]
                     window.electronAPI.openFile(`${file.path}/${file.name}`).then((data) => {
-                        EditorsManager.openFileInNewPanel({
-                            name: data.fileName,
-                            content: data.fileContent,
-                            path: data.filePath
-                        })
+                        console.log(data)
+                        EditorsManager.openFileInNewPanel(data)
                         ModalsManager.hideModals()
-                        // ModalsManager.hideTreeModal()
                     })
                 } else {
                     // Open in the current panel
                     let file = matches[selectedQuickSearchResultItem]
                     window.electronAPI.openFile(`${file.path}/${file.name}`).then((data) => {
-                        EditorsManager.openFile({
-                            name: data.fileName,
-                            content: data.fileContent,
-                            path: data.filePath
-                        })
+                        EditorsManager.openFile(data)
                         ModalsManager.hideModals()
-                        // ModalsManager.hideTreeModal()
                     })
                 }
                 selectedQuickSearchResultItem = null

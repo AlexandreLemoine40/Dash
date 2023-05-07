@@ -10,5 +10,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
     onProjectOpened: (callback) => ipcRenderer.on('projectOpened', callback),
     onFileSaved: (callback) => ipcRenderer.on('fileSave', callback),
     saveFile: (file, content) => ipcRenderer.send('saveFile', { filePath: file, fileContent: content }),
-    askPreferencies: () => ipcRenderer.invoke('preferencies')
+    askPreferences: () => ipcRenderer.invoke('preferencies'),
+    closePanel: (panelId) => ipcRenderer.invoke('closePanel', panelId),
+    closeWindow: () => ipcRenderer.send('closeWindow'),
+    maximizeWindow: () => ipcRenderer.send('maximizeWindow'),
+    minimizeWindow: () => ipcRenderer.send('minimizeWindow')
 })

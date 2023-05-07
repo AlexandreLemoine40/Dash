@@ -76,6 +76,8 @@ const createWindow = () => {
         }
     })
 
+    let preferences = JSON.parse(fs.readFileSync(path.join(__dirname, '.dash/preferences.json')).toString())
+
     ipcMain.on('saveFile', (event, data) => {
         fs.writeFile(data.filePath, data.fileContent, (err) => {
             let evt = 'fileSaved'
@@ -142,7 +144,59 @@ const createWindow = () => {
         win.webContents.send('projectOpened', { directory: directory, project: project, preferencies: null })
     })
 
-    ipcMain.handle('preferencies', (event, file) => {
+    ipcMain.on('minimizeWindow', () => {
+        win.minimize()
+    })
+
+    ipcMain.on('maximizeWindow', () => {
+        if (win.isMaximized()) {
+            win.restore()
+        } else {
+            win.maximize()
+        }
+    })
+
+    ipcMain.on('closeWindow', () => {
+        win.close()
+    })
+
+    ipcMain.handle('preferencies', (event) => {
+        console.log(preferences)
+        let project = buildTree(__dirname)
+        sort(project)
+        win.setTitle(`IDIZ - ${__dirname}`)
+        return { panels: preferences, directory: __dirname, project: project }
+    })
+
+    ipcMain.on('openPanel', (event, data) => {
+        preferences[data.panelId] = {
+            files: [data.file],
+            active: 0
+        }
+        updatePreferences()
+    })
+
+    ipcMain.on('updatePanel', (event, data) => {
+        // Placeholder code
+        let action = 'update'
+        updatePreferences()
+    })
+
+    ipcMain.handle('closePanel', (event, panelId) => {
+        if (preferences.panels.hasOwnProperty(panelId)) {
+            console.log(`deleting ${panelId}`)
+            delete preferences.panels[panelId]
+            console.log(preferences)
+            updatePreferences()
+        }
+        return true
+    })
+
+    function updatePreferences() {
+        fs.writeFileSync(path.join(__dirname, '.dash/preferences.json'), JSON.stringify(preferences))
+    }
+
+    /*ipcMain.handle('preferencies', (event, file) => {
         // Retrieve project path from ~/.dash/project.txt
         // If file does not exist, take the process path as project path
         // If user opens a project using the browser, define the file ~/.dash/project.txt with the project's path as content
@@ -162,7 +216,7 @@ const createWindow = () => {
         win.setTitle(`IDIZ - ${__dirname}`)
         const result = { directory: __dirname, filesOpened: filesOpened, project: project }
         return result
-    })
+    })*/
 
     win.loadFile('index.html')
 }

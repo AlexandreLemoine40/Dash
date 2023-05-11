@@ -91,7 +91,7 @@
     display: flex;
     color: var(--main-color);
     border-left: solid 1px var(--main-color);
-    background-color: white;
+    background-color: var(--bg-color);
 }
 
 .close-panel {
@@ -126,6 +126,14 @@ body {
     height: 100%;
     line-height: 19px;
     background-color: var(--bg-color);
+}
+
+.nightshift {
+    filter: brightness(80%) sepia(0.5);
+}
+
+#nightshift-settings {
+    display: none;
 }
 
 .taskbar-item {
@@ -169,7 +177,7 @@ body {
 }
 
 .editor-view {
-    /** background-color: white;*/
+    background-color: var(--bg-color);
     overflow: hidden;
     border-left: solid 1px var(--main-color);
 }
@@ -232,7 +240,6 @@ body {
 .editor-title {
     width: fit-content;
     border-bottom: solid 3px var(--main-color);
-    background-color: transparent;
     color: var(--main-color);
 }
 
@@ -288,7 +295,7 @@ body {
 
 #home-view {
     display: none;
-    background-color: white;
+    background-color: var(--bg-color);
 
 }
 
@@ -403,7 +410,7 @@ body {
 }
 
 .window-icon:hover {
-    background-color: white;
+    background-color: var(--bg-color);
     color: var(--main-color);
 }
 

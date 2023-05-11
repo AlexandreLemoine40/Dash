@@ -12,7 +12,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
     saveFile: (file, content) => ipcRenderer.send('saveFile', { filePath: file, fileContent: content }),
     changeActive: (data) => ipcRenderer.send('updatePanel', data),
     openPanelFile: (data) => ipcRenderer.send('updatePanel', data),
-    closePanelFile: (data) => ipcRenderer.send('updatePanel', data),
+    closePanelFile: (data) => {
+        console.log(data)
+        ipcRenderer.send('updatePanel', data)
+    },
     openPanel: (data) => ipcRenderer.send('openPanel', data),
     askPreferences: () => ipcRenderer.invoke('preferencies'),
     closePanel: (panelId) => ipcRenderer.invoke('closePanel', panelId),

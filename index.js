@@ -76,7 +76,10 @@ const createWindow = () => {
         }
     })
 
-    let preferences = JSON.parse(fs.readFileSync(path.join(__dirname, '.dash/preferences.json')).toString())
+    // let project = fs.readFileSync(os.homedir() + '.dash/project.txt').toString()
+    let project = '/home/alex/DashJS/'
+
+    let preferences = JSON.parse(fs.readFileSync(path.join(project, '.dash/preferences.json')).toString())
 
     ipcMain.on('saveFile', (event, data) => {
         // First: check the mtime to see if there's newer versions of the file since the last save/opening
@@ -170,7 +173,7 @@ const createWindow = () => {
     })
 
     ipcMain.on('openPanel', (event, data) => {
-        preferences[data.panelId] = {
+        preferences.panels[data.panelId] = {
             files: [data.file],
             active: 0
         }
@@ -179,6 +182,8 @@ const createWindow = () => {
 
     ipcMain.on('updatePanel', (event, data) => {
         if (data.action == 'closeFile') {
+            console.log(data)
+            console.log(preferences.panels)
             for (let i = 0; i < preferences.panels[data.panelId].files.length; i++) {
                 let row = preferences.panels[data.panelId].files[i]
                 if (row == data.filePath) {

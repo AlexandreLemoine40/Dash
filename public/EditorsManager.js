@@ -29,6 +29,10 @@ class EditorsManager {
             p = Array.from(Panels.list.values()).pop()
         } else {
             p = Panels.createPanel()
+            window.electronAPI.openPanel({
+                file: file.filePath,
+                panelId: p.id
+            })
         }
         p.addFile(file)
         window.electronAPI.openPanelFile({

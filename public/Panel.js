@@ -15,41 +15,20 @@ class Panel {
     constructor(id = undefined, files = undefined, active = undefined) {
         if (id && files && active > -1) {
             this.#id = id
-            this.#tabs = new Map()
-            this.#tabsContainer = this.createTabsContainer()
-            this.#editorsContainer = this.createEditorsContainer()
-            this.#closePanel = this.createClosePanel()
-            this.#splitPanel = this.createSplitPanel()
-            this.#headerElement = this.createHeader()
-            this.#panelActions = this.createPanelActions()
-            this.#element = this.createElement()
-            this.append()
-            this.#editors = new Map()
-            this.#activeEditor = null
-            for (let i = 0; i < files.length; i++) {
-                let file = files[i];
-                window.electronAPI.openFile(file).then(data => {
-                    let editor = this.addFile(data)
-                    if (active == i) {
-                        this.#activeEditor = editor
-                    }
-                })
-            }
         } else {
             this.#id = Math.round(new Date().getTime() / 2)
-            this.#tabs = new Map()
-            this.#tabsContainer = this.createTabsContainer()
-            this.#editorsContainer = this.createEditorsContainer()
-            this.#closePanel = this.createClosePanel()
-            this.#splitPanel = this.createSplitPanel()
-            this.#headerElement = this.createHeader()
-            this.#panelActions = this.createPanelActions()
-            this.#element = this.createElement()
-            this.append()
-            this.#editors = new Map()
-            this.#activeEditor = null
-            // Add editor to preferences file
         }
+        this.#tabs = new Map()
+        this.#tabsContainer = this.createTabsContainer()
+        this.#editorsContainer = this.createEditorsContainer()
+        this.#closePanel = this.createClosePanel()
+        this.#splitPanel = this.createSplitPanel()
+        this.#headerElement = this.createHeader()
+        this.#panelActions = this.createPanelActions()
+        this.#element = this.createElement()
+        this.append()
+        this.#editors = new Map()
+        this.#activeEditor = null
     }
 
     createElement() {
@@ -124,7 +103,9 @@ class Panel {
     }
 
     setActive(index) {
-        Array.from(this.#editors)[index].setActive()
+        let editor = Array.from(this.#editors.values())[index]
+        editor.show()
+        this.#activeEditor = editor
     }
 
     get id() {
@@ -139,10 +120,11 @@ class Panel {
         return this.#activeEditor
     }
 
-    addFile(file) {
+    addFile(file, restored = false) {
         if (!this.#editors.get(file.filePath)) {
             let editor = new Editor(file.fileName, file.fileContent, file.filePath);
             editor.getTab().element.onclick = (event) => {
+                console.log(this.#activeEditor)
                 if (this.#activeEditor.id != editor.id) {
                     this.switch(editor)
                     window.electronAPI.changeActive({
@@ -155,30 +137,36 @@ class Panel {
             editor.getTab().closeElement.onclick = (event) => {
                 event.stopPropagation()
                 this.closeFile(editor)
-                let activeIndex = -1
                 let editors = Array.from(this.#editors.keys())
-                for (let i = 0; i < editors.length; i++) {
-                    let row = editors[i];
-                    if (row == this.#activeEditor.filePath) {
-                        activeIndex = i
+                if (editors.length > 0) {
+                    let activeIndex = -1
+                    for (let i = 0; i < editors.length; i++) {
+                        let row = editors[i];
+                        if (row == this.#activeEditor.filePath) {
+                            activeIndex = i
+                        }
                     }
+                    window.electronAPI.closePanelFile({
+                        action: 'closeFile',
+                        panelId: this.#id,
+                        filePath: editor.filePath,
+                        active: activeIndex
+                    })
                 }
-                window.electronAPI.closePanelFile({
-                    action: 'closeFile',
-                    panelId: this.#id,
-                    filePath: editor.filePath,
-                    active: activeIndex
-                })
             }
-            /*for (const [key, value] of this.#editors) {
+            for (const [key, value] of this.#editors) {
                 value.hide()
-            }*/
+            }
             this.#editors.set(file.filePath, editor)
             this.#tabsContainer.appendChild(editor.getTab().element)
             this.#editorsContainer.appendChild(editor.getElement())
-            // this.#activeEditor = editor
+            if (!restored) {
+                this.#activeEditor = editor
+                editor.getTab().setActive()
+            } else {
+                editor.hide()
+            }
             document.getElementById('home-view').style.display = 'none'
-            return editor
         }
     }
 
@@ -210,7 +198,7 @@ class Panel {
                 let p = Array.from(Panels.list.values()).pop()
                 p.focus()
             } else {
-                // document.getElementById('home-view').style.display = 'initial'
+                document.getElementById('home-view').style.display = 'initial'
             }
         })
     }
@@ -250,7 +238,17 @@ class Panel {
     }
 
     static createPanel(panel, id) {
+        console.log(panel)
         let p = new Panel(id, panel.files, panel.active)
+        for (let i = 0; i < panel.files.length; i++) {
+            let file = panel.files[i];
+            window.electronAPI.openFile(file).then(data => {
+                p.addFile(data, true)
+                if (i == panel.files.length - 1) {
+                    p.setActive(panel.active)
+                }
+            })
+        }
         Panels.list.set(id, p)
     }
 }

@@ -15,7 +15,7 @@
     <title>DashJS</title>
 </head>
 
-<body>
+<body class="nightshift">
     <div class="title-bar">
         <div class="head">
             <div class="head-title">DashJS <span id="project-name"></span></div>
@@ -67,7 +67,8 @@
             </span>
         </div>
         <div class="color-white">
-            <span class="taskbar-item"><i class="fa-duotone fa-moon"></i> Dark mode</span>
+            <span class="taskbar-item" onclick="toggleNightShiftSettings()"><i
+                    class="fa-sharp fa-solid fa-house-night"></i> Nightshift</span>
             <span class="taskbar-item">
                 <i class="fa-light fa-question"></i> Help
             </span>
@@ -126,6 +127,14 @@
 
                 </div>
             </div>
+        </div>
+    </div>
+    <div id="nightshift-settings">
+        <div id="ns-settings-title">
+
+        </div>
+        <div id="ns-settings-body">
+
         </div>
     </div>
     <script src="./public/highlight/highlight.min.js"></script>
@@ -226,6 +235,23 @@
                 document.getElementById('quick-search-file-results').innerHTML = ''
             }
         })
+
+        /*function toggleNightShiftSettings() {
+            let element = document.getElementById('nightshift-settings')
+            let display = 'initial'
+            if (window.getComputedStyle(element).getPropertyValue('display') == 'initial') {
+                display = 'none'
+            }
+            element.style.display = display
+        }*/
+
+        function toggleNightShiftSettings() {
+            if (document.body.classList.contains('nightshift')) {
+                document.body.classList.remove('nightshift')
+            } else {
+                document.body.classList.add('nightshift')
+            }
+        }
     </script>
 </body>
 

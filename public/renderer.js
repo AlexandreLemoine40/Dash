@@ -17,6 +17,7 @@ window.electronAPI.onFileSaved((_event, arg) => {
 })
 
 window.electronAPI.askPreferences().then((data) => {
+    console.log(data)
     for (const key in data.panels.panels) {
         Panel.createPanel(data.panels.panels[key], key)
     }

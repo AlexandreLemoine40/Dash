@@ -54,7 +54,7 @@ class EditorTab {
     createElement() {
         let element = document.createElement('div');
         element.id = `tab-${this.#editorId}`
-        element.className = 'editor-title active';
+        element.className = 'editor-title';
         let titleElement = document.createElement('div');
         titleElement.className = 'title';
         let fileNameElement = document.createElement('span')

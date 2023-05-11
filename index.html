@@ -179,7 +179,6 @@
                     // Open in a new panel
                     let file = matches[selectedQuickSearchResultItem]
                     window.electronAPI.openFile(`${file.path}/${file.name}`).then((data) => {
-                        console.log(data)
                         EditorsManager.openFileInNewPanel(data)
                         ModalsManager.hideModals()
                     })

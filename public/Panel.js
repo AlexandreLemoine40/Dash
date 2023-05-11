@@ -28,9 +28,11 @@ class Panel {
             this.#activeEditor = null
             for (let i = 0; i < files.length; i++) {
                 let file = files[i];
-                console.log(file)
                 window.electronAPI.openFile(file).then(data => {
-                    this.addFile(data)
+                    let editor = this.addFile(data)
+                    if (active == i) {
+                        this.#activeEditor = editor
+                    }
                 })
             }
         } else {
@@ -129,27 +131,54 @@ class Panel {
         return this.#id
     }
 
+    get files() {
+        return Array.from(this.#editors.keys())
+    }
+
+    get active() {
+        return this.#activeEditor
+    }
+
     addFile(file) {
         if (!this.#editors.get(file.filePath)) {
-            console.log(file)
             let editor = new Editor(file.fileName, file.fileContent, file.filePath);
             editor.getTab().element.onclick = (event) => {
                 if (this.#activeEditor.id != editor.id) {
                     this.switch(editor)
+                    window.electronAPI.changeActive({
+                        action: 'changeActive',
+                        panelId: this.#id,
+                        active: editor.filePath
+                    })
                 }
             }
             editor.getTab().closeElement.onclick = (event) => {
                 event.stopPropagation()
                 this.closeFile(editor)
+                let activeIndex = -1
+                let editors = Array.from(this.#editors.keys())
+                for (let i = 0; i < editors.length; i++) {
+                    let row = editors[i];
+                    if (row == this.#activeEditor.filePath) {
+                        activeIndex = i
+                    }
+                }
+                window.electronAPI.closePanelFile({
+                    action: 'closeFile',
+                    panelId: this.#id,
+                    filePath: editor.filePath,
+                    active: activeIndex
+                })
             }
-            for (const [key, value] of this.#editors) {
+            /*for (const [key, value] of this.#editors) {
                 value.hide()
-            }
+            }*/
             this.#editors.set(file.filePath, editor)
             this.#tabsContainer.appendChild(editor.getTab().element)
             this.#editorsContainer.appendChild(editor.getElement())
-            this.#activeEditor = editor
+            // this.#activeEditor = editor
             document.getElementById('home-view').style.display = 'none'
+            return editor
         }
     }
 
@@ -222,5 +251,6 @@ class Panel {
 
     static createPanel(panel, id) {
         let p = new Panel(id, panel.files, panel.active)
+        Panels.list.set(id, p)
     }
 }

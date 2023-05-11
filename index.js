@@ -79,6 +79,7 @@ const createWindow = () => {
     let preferences = JSON.parse(fs.readFileSync(path.join(__dirname, '.dash/preferences.json')).toString())
 
     ipcMain.on('saveFile', (event, data) => {
+        // First: check the mtime to see if there's newer versions of the file since the last save/opening
         fs.writeFile(data.filePath, data.fileContent, (err) => {
             let evt = 'fileSaved'
             if (err) {
@@ -177,8 +178,32 @@ const createWindow = () => {
     })
 
     ipcMain.on('updatePanel', (event, data) => {
-        // Placeholder code
-        let action = 'update'
+        if (data.action == 'closeFile') {
+            for (let i = 0; i < preferences.panels[data.panelId].files.length; i++) {
+                let row = preferences.panels[data.panelId].files[i]
+                if (row == data.filePath) {
+                    preferences.panels[data.panelId].files.splice(i, 1)
+                    break
+                }
+            }
+            preferences.panels[data.panelId].active = data.active
+            // UPDATE ACTIVE EDITOR INDEX
+        } else if (data.action == 'addFile') {
+            // data.filePath is a string
+            console.log(preferences.panels[data.panelId])
+            preferences.panels[data.panelId].files.push(data.filePath)
+            preferences.panels[data.panelId].active = data.active
+            // UPDATE ACTIVE EDITOR INDEX
+        } else if (data.action == 'changeActive') {
+            // Has to be an integer
+            for (let i = 0; i < preferences.panels[data.panelId].files.length; i++) {
+                let row = preferences.panels[data.panelId].files[i];
+                if (row == data.active) {
+                    preferences.panels[data.panelId].active = i
+                    break
+                }
+            }
+        }
         updatePreferences()
     })
 
@@ -195,28 +220,6 @@ const createWindow = () => {
     function updatePreferences() {
         fs.writeFileSync(path.join(__dirname, '.dash/preferences.json'), JSON.stringify(preferences))
     }
-
-    /*ipcMain.handle('preferencies', (event, file) => {
-        // Retrieve project path from ~/.dash/project.txt
-        // If file does not exist, take the process path as project path
-        // If user opens a project using the browser, define the file ~/.dash/project.txt with the project's path as content
-        let currentPreferenciesPath = path.join(__dirname, '.dash/')
-        let filesOpened = []
-        if (fs.existsSync(currentPreferenciesPath)) {
-            if (fs.existsSync(currentPreferenciesPath + 'editors.txt')) {
-                filesOpened = fs.readFileSync(currentPreferenciesPath + 'editors.txt')
-                filesOpened = filesOpened.toString().split('\n')
-            }
-        } else {
-            fs.mkdirSync(currentPreferenciesPath, { recursive: true })
-            fs.writeFileSync(currentPreferenciesPath + 'editors.txt', '')
-        }
-        let project = buildTree(__dirname)
-        sort(project)
-        win.setTitle(`IDIZ - ${__dirname}`)
-        const result = { directory: __dirname, filesOpened: filesOpened, project: project }
-        return result
-    })*/
 
     win.loadFile('index.html')
 }

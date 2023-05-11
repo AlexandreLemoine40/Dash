@@ -31,10 +31,17 @@ class EditorsManager {
             p = Panels.createPanel()
         }
         p.addFile(file)
+        window.electronAPI.openPanelFile({
+            action: 'addFile',
+            panelId: p.id,
+            filePath: file.filePath,
+            active: Array.from(p.editors).length - 1
+        })
     }
 
     static openFileInNewPanel(file) {
         let p = Panels.createPanel()
         p.addFile(file)
-   }
+        window.electronAPI.openPanel(p.id, file.filePath)
+    }
 }

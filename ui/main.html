@@ -92,8 +92,7 @@
                             class="fa-solid fa-file"></i></button>
                 </div>
                 <div id="new-file">
-                    <button class="btn" onclick="EditorsManager.openNewFile()">New file <i
-                            class="fa-solid fa-plus"></i></button>
+                    <button class="btn" onclick="Panel.openNewFile()">New file <i class="fa-solid fa-plus"></i></button>
                 </div>
             </div>
         </div>
@@ -121,9 +120,9 @@
             </div>
             <div class="modal-body">
                 <div id="quick-search-file">
-                    <input type="text" id="quick-search-file-input" onkeyup="" placeholder="Search file">
+                    <input type="text" id="quick-file-search-input" onkeyup="" placeholder="Search file">
                 </div>
-                <div id="quick-search-file-results">
+                <div id="quick-file-search-results">
 
                 </div>
             </div>
@@ -145,7 +144,7 @@
     <script src="./public/TextDisplay.js"></script>
     <script src="./public/TextEditor.js"></script>
     <script src="./public/Editor.js"></script>
-    <script src="./public/EditorsManager.js"></script>
+    <script src="./public/Panel.js"></script>
     <script src="./public/ModalsManager.js"></script>
     <script src="./public/Directory.js"></script>
     <script src="./public/File.js"></script>
@@ -176,34 +175,34 @@
         let selectedQuickSearchResultItem = null
         let limitQuickSearchResultItem
         let matches = []
-        document.getElementById('quick-search-file-input').addEventListener('keydown', (event) => {
+        document.getElementById('quick-file-search-input').addEventListener('keydown', (event) => {
             if (event.key == 'ArrowDown' || event.key == 'ArrowUp') {
                 event.preventDefault()
             }
         })
-        document.getElementById('quick-search-file-input').addEventListener('keyup', (event) => {
+        document.getElementById('quick-file-search-input').addEventListener('keyup', (event) => {
             if (event.key == 'Enter') {
                 // Open the selected file
                 if (event.shiftKey) {
                     // Open in a new panel
                     let file = matches[selectedQuickSearchResultItem]
                     window.electronAPI.openFile(`${file.path}/${file.name}`).then((data) => {
-                        EditorsManager.openFileInNewPanel(data)
+                        Panel.openFileInNewPanel(data)
                         ModalsManager.hideModals()
                     })
                 } else {
                     // Open in the current panel
                     let file = matches[selectedQuickSearchResultItem]
                     window.electronAPI.openFile(`${file.path}/${file.name}`).then((data) => {
-                        EditorsManager.openFile(data)
+                        Panel.openFile(data)
                         ModalsManager.hideModals()
                     })
                 }
                 selectedQuickSearchResultItem = null
                 limitQuickSearchResultItem = undefined
                 matches = []
-                document.getElementById('quick-search-file-input').value = ''
-                document.getElementById('quick-search-file-results').innerHTML = ''
+                document.getElementById('quick-file-search-input').value = ''
+                document.getElementById('quick-file-search-results').innerHTML = ''
             } else if (event.key == 'ArrowDown') {
                 event.preventDefault()
                 // Move down the selected
@@ -232,7 +231,7 @@
                 // Set the active result as first of the list (active class with background color)
 
             } else {
-                document.getElementById('quick-search-file-results').innerHTML = ''
+                document.getElementById('quick-file-search-results').innerHTML = ''
             }
         })
 

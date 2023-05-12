@@ -251,4 +251,39 @@ class Panel {
         }
         Panels.list.set(id, p)
     }
+
+    static openNewFile() {
+        let editor = new Editor('Untitled', '', '');
+        document.querySelectorAll('.editor').forEach(editor => {
+            editor.style.display = 'none'
+        })
+        // editor.append();
+        ModalsManager.hideHomeModal()
+    }
+
+    static openFile(file, panel = undefined) {
+        let p = panel
+        if (!panel && Panels.list.size > 0) {
+            p = Array.from(Panels.list.values()).pop()
+        } else {
+            p = Panels.createPanel()
+            window.electronAPI.openPanel({
+                file: file.filePath,
+                panelId: p.id
+            })
+        }
+        p.addFile(file)
+        window.electronAPI.openPanelFile({
+            action: 'addFile',
+            panelId: p.id,
+            filePath: file.filePath,
+            active: Array.from(p.editors).length - 1
+        })
+    }
+
+    static openFileInNewPanel(file) {
+        let p = Panels.createPanel()
+        p.addFile(file)
+        window.electronAPI.openPanel(p.id, file.filePath)
+    }
 }

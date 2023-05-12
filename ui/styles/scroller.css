@@ -1,0 +1,18 @@
+*::-webkit-scrollbar-track {
+    background-color: #F5F5F5;
+}
+
+*::-webkit-scrollbar {
+    width: 6px;
+    background-color: #F5F5F5;
+}
+
+#quick-file-search-results::-webkit-scrollbar-thumb {
+    background-color: var(--main-color);
+}
+
+/*
+#quick-file-search-results::-webkit-scrollbar-thumb {
+    background-color: var(--main-color);
+}
+*/

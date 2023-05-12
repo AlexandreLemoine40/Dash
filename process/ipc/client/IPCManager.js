@@ -1,3 +1,7 @@
+class IPCManager {
+
+}
+
 const targetNode = document.getElementById("editors-container");
 
 window.electronAPI.onProjectOpened((_event, arg) => {
@@ -33,7 +37,7 @@ window.electronAPI.askPreferences().then((data) => {
         for (let i = 0; i < files.length; i++) {
             const file = files[i];
             window.electronAPI.openFile(file).then((data) => {
-                EditorsManager.openFile({
+                Panel.openFile({
                     name: data.fileName,
                     content: data.fileContent,
                     path: data.filePath

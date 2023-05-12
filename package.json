@@ -2,7 +2,7 @@
   "name": "dash-code-editor",
   "version": "1.0.0",
   "description": "Dash code Editor",
-  "main": "index.js",
+  "main": "process/main.js",
   "scripts": {
     "start": "electron-forge start",
     "test": "echo \"Error: no test specified\" && exit 1",

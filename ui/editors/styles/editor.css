@@ -1,0 +1,9 @@
+.editor {
+    flex: 1 1 auto;
+    display: grid;
+    width: 100%;
+    overflow: auto;
+    grid-template-columns: auto 1fr;
+    padding-top: 15px;
+    border-radius: 10px;
+}

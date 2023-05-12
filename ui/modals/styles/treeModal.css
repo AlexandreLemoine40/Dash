@@ -1,0 +1,11 @@
+#tree-modal {
+    position: absolute;
+    width: 50vh;
+    height: 50vh;
+    display: none;
+    z-index: 3;
+}
+
+#tree-modal>.modal-body {
+    grid-template-rows: auto 1fr;
+}

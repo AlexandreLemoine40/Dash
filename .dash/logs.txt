@@ -1,0 +1,2 @@
+[2023/05/11][10:59:56] Error : No such file or directory 'bozo.clown';
+[2023/05/11][11:02:58] Error : No preferences file found for project '/home/alex/DashJS/';

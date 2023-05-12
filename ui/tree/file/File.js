@@ -88,7 +88,7 @@ class File {
         f.innerHTML = `<i class='${this.#icon} file-icon'></i> ${file}`
         f.onclick = () => {
             window.electronAPI.openFile(`${this.#path}/${this.#name}`).then((data) => {
-                EditorsManager.openFile(data)
+                Panel.openFile(data)
                 ModalsManager.hideTreeModal()
             })
         }
@@ -103,8 +103,8 @@ class File {
         /**
          *  <div class="quick-file-search-item">
                 <span class="quick-search-file-icon"><i class="fa-brands fa-js"></i></span>&nbsp;
-                <span class="quick-search-file-name">index.js</span>&nbsp;
-                <span class="quick-search-file-path">/home/alex/Dash/</span>
+                <span class="quick-file-search-name">index.js</span>&nbsp;
+                <span class="quick-file-search-path">/home/alex/Dash/</span>
             </div>
         */
         let element = document.createElement('div')
@@ -115,10 +115,10 @@ class File {
         icon.className = this.#icon
         iconContainer.appendChild(icon)
         let name = document.createElement('span')
-        name.className = "quick-search-file-name"
+        name.className = "quick-file-search-name"
         name.innerHTML = this.#name + "&nbsp;"
         let path = document.createElement('span')
-        path.className = "quick-search-file-path"
+        path.className = "quick-file-search-path"
         path.innerHTML = this.#path
         element.appendChild(icon)
         element.appendChild(name)

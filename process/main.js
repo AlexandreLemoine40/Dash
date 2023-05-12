@@ -226,7 +226,7 @@ const createWindow = () => {
         fs.writeFileSync(path.join(__dirname, '.dash/preferences.json'), JSON.stringify(preferences))
     }
 
-    win.loadFile('index.html')
+    win.loadFile('ui/main.html')
 }
 
 app.whenReady().then(() => {

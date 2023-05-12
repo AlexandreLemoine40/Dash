@@ -1,0 +1,18 @@
+{
+    "panels": {
+        "165894913": {
+            "files": [
+                "/home/alex/DashJS/index.js"
+            ],
+            "active": 0
+        },
+        "1658949132": {
+            "files": [
+                "/home/alex/DashJS/index.html",
+                "/home/alex/DashJS/styles/style.css",
+                "/home/alex/DashJS/out/dash-code-editor-linux-x64/resources/app/public//Editor.js"
+            ],
+            "active": 2
+        }
+    }
+}

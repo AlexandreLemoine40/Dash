@@ -9,7 +9,7 @@ class ModalsManager {
     static isQuickSearchModalShown = false
     static isTreeModalShown = false
     static HomeModal = document.getElementById('open-project-modal')
-    static quickSearchResultContainer = document.getElementById('quick-search-file-results')
+    static quickSearchResultContainer = document.getElementById('quick-file-search-results')
 
     static toggleTreeModal() {
         if (ModalsManager.isTreeModalShown) {
@@ -31,13 +31,13 @@ class ModalsManager {
     static showQuickSearchModal() {
         document.getElementById('modals-container').style.display = 'initial'
         ModalsManager.quickSearchModal.style.display = 'grid'
-        document.getElementById('quick-search-file-input').focus()
+        document.getElementById('quick-file-search-input').focus()
     }
 
     static hideQuickSearchModal() {
         document.getElementById('modals-container').style.display = 'none'
         ModalsManager.quickSearchModal.style.display = 'none'
-        document.getElementById('quick-search-file-input').value = ''
+        document.getElementById('quick-file-search-input').value = ''
     }
 
     static hideModals() {

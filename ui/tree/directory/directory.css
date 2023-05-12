@@ -1,0 +1,22 @@
+.directory {
+    width: calc(100% - 2px);
+}
+
+.directory,
+.directory-item {
+    color: var(--main-color);
+}
+
+.directory-content {
+    margin-left: 1em;
+}
+
+/** HOVER STYLES SECTION **/
+
+.directory-header:hover,
+.directory-item:hover {
+    cursor: pointer;
+    color: var(--bg-color);
+    background-color: var(--main-color);
+    /** opacity: 0.5; **/
+}

@@ -1,0 +1,7 @@
+#panels-container {
+    display: flex;
+    width: 100%;
+    height: calc(97% - 30px);
+    overflow: hidden;
+    justify-content: center;
+}

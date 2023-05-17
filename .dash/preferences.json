@@ -1,1 +1,18 @@
-{"panels":{}}
+{
+    "panels": {
+        "165894913": {
+            "files": [
+                "/home/alex/Personnel/project-sandbox/src/App.js"
+            ],
+            "active": 0
+        },
+        "1658949132": {
+            "files": [
+                "/home/alex/Personnel/project-sandbox/index.js",
+                "/home/alex/Personnel/project-sandbox/index.css",
+                "/home/alex/Personnel/project-sandbox/theme.js"
+            ],
+            "active": 2
+        }
+    }
+}

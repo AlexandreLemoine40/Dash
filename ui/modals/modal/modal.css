@@ -24,3 +24,9 @@
     padding-top: 15px;
     padding-bottom: 15px;
 }
+
+.modal-body {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    overflow: hidden;
+}

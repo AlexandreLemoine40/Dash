@@ -1,0 +1,15 @@
+button,
+.btn {
+    border-radius: 0px;
+    background-color: var(--main-color);
+    border: none;
+    color: white;
+    padding: 15px;
+}
+
+button,
+.btn:hover {
+    transition-property: opacity;
+    transition-duration: 0.150s;
+    opacity: 0.8;
+}

@@ -67,6 +67,7 @@ const createWindow = () => {
         width: 1920,
         height: 1080,
         frame: false,
+        icon: path.join(__dirname, "../images/icon.png"),
         webPreferences: {
             nodeIntegration: false,
             webgl: true, // Activer l'accélération matérielle pour WebGL

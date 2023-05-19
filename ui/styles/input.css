@@ -1,0 +1,7 @@
+input {
+    color: var(--main-color);
+}
+
+input:focus {
+    outline: none;
+}

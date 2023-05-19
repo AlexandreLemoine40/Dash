@@ -67,19 +67,51 @@ const createWindow = () => {
         width: 1920,
         height: 1080,
         frame: false,
+        icon: path.join(__dirname, "../images/icon.png"),
         webPreferences: {
             nodeIntegration: false,
             webgl: true, // Activer l'accélération matérielle pour WebGL
             experimentalCanvasFeatures: true, // Activer l'accélération matérielle pour Canvas
             accelerator: 'gpu', // Utiliser le GPU pour le rendu accéléré
-            preload: path.join(__dirname, "modules/preload.js")
+            preload: path.join(__dirname, "ipc/client/preload.js")
         }
     })
 
-    // let project = fs.readFileSync(os.homedir() + '.dash/project.txt').toString()
-    let project = '/home/alex/DashJS/'
+    /*********** Test if Dash global preferences file exists */
+    /*********** Test if Dash project preferences file exists */
 
-    let preferences = JSON.parse(fs.readFileSync(path.join(project, '.dash/preferences.json')).toString())
+    // let project = fs.readFileSync(os.homedir() + '.dash/project.txt').toString()
+    let preferences = JSON.parse(fs.readFileSync(os.homedir() + '/.dash/preferences.json').toString())
+
+    let preferencesPath = path.join(preferences.project, '.dash/preferences.json')
+    let projectPreferences
+    if (fs.existsSync(preferencesPath)) {
+        projectPreferences = JSON.parse(fs.readFileSync(preferencesPath).toString())
+    } else {
+        // Create the directory
+        fs.mkdirSync(preferences.project + '.dash')
+        // For the test case
+        let object = {
+            "panels": {
+                "165894913": {
+                    "files": [
+                        "/home/alex/Personnel/project-sandbox/src/App.js"
+                    ],
+                    "active": 0
+                },
+                "1658949132": {
+                    "files": [
+                        "/home/alex/Personnel/project-sandbox/index.js",
+                        "/home/alex/Personnel/project-sandbox/index.css",
+                        "/home/alex/Personnel/project-sandbox/theme.js"
+                    ],
+                    "active": 2
+                }
+            }
+        }
+        fs.writeFileSync(preferencesPath, JSON.stringify(object))
+        projectPreferences = object
+    }
 
     ipcMain.on('saveFile', (event, data) => {
         // First: check the mtime to see if there's newer versions of the file since the last save/opening
@@ -92,7 +124,7 @@ const createWindow = () => {
         })
     })
 
-    ipcMain.handle('closeFile', (event, file) => {
+    /*ipcMain.handle('closeFile', (event, file) => {
         let currentPreferenciesPath = path.join(__dirname, '.dash/')
         let filesOpenedPath = currentPreferenciesPath + 'editors.txt'
         let filesOpened = []
@@ -112,28 +144,10 @@ const createWindow = () => {
             fs.writeFileSync(filesOpenedPath, filesOpened.join('\n'))
         }
         return true
-    })
+    })*/
 
     ipcMain.handle('openFile', (event, file) => {
         if (file != '') {
-            let currentPreferenciesPath = path.join(__dirname, '.dash/')
-            let filesOpenedPath = currentPreferenciesPath + 'editors.txt'
-            let isOpened = false
-            let filesOpened = []
-            if (fs.existsSync(filesOpenedPath)) {
-                filesOpened = fs.readFileSync(filesOpenedPath).toString().split('\n')
-                for (let i = 0; i < filesOpened.length; i++) {
-                    const f = filesOpened[i];
-                    if (file == f) {
-                        isOpened = true
-                        break
-                    }
-                }
-            }
-            if (!isOpened) {
-                filesOpened.push(file)
-                fs.writeFileSync(filesOpenedPath, filesOpened.join('\n'))
-            }
             const result = { fileName: file.split('/').pop(), filePath: file, fileContent: fs.readFileSync(file).toString() }
             return result
         }
@@ -141,7 +155,12 @@ const createWindow = () => {
 
     ipcMain.on('openProject', (event, data) => {
         let directory = dialog.showOpenDialogSync({ properties: ['openDirectory'] })[0]
-        fs.writeFileSync(path.join(os.homedir(), '.dash/project.txt'), directory)
+        /** TODO : make changes in the preferences variables */
+        preferences.project = directory
+        preferencesPath = preferences.project, '.dash/preferences.json'
+
+        // Get the preferences for the project
+        projectPreferences = JSON.parse(fs.readFileSync(preferencesPath).toString())
         let project = buildTree(directory)
         sort(project)
         win.setTitle(`IDIZ - ${directory}`)
@@ -165,65 +184,65 @@ const createWindow = () => {
     })
 
     ipcMain.handle('preferencies', (event) => {
-        console.log(preferences)
-        let project = buildTree(__dirname)
+        console.log(projectPreferences)
+        let project = buildTree(preferences.project)
         sort(project)
-        win.setTitle(`IDIZ - ${__dirname}`)
-        return { panels: preferences, directory: __dirname, project: project }
+        win.setTitle(`IDIZ - ${preferences.project}`)
+        return { panels: projectPreferences, directory: preferences.project, project: project }
     })
 
     ipcMain.on('openPanel', (event, data) => {
-        preferences.panels[data.panelId] = {
+        projectPreferences.panels[data.panelId] = {
             files: [data.file],
             active: 0
         }
-        updatePreferences()
+        updateProjectPreferences()
     })
 
     ipcMain.on('updatePanel', (event, data) => {
         if (data.action == 'closeFile') {
             console.log(data)
-            console.log(preferences.panels)
-            for (let i = 0; i < preferences.panels[data.panelId].files.length; i++) {
-                let row = preferences.panels[data.panelId].files[i]
+            console.log(projectPreferences.panels)
+            for (let i = 0; i < projectPreferences.panels[data.panelId].files.length; i++) {
+                let row = projectPreferences.panels[data.panelId].files[i]
                 if (row == data.filePath) {
-                    preferences.panels[data.panelId].files.splice(i, 1)
+                    projectPreferences.panels[data.panelId].files.splice(i, 1)
                     break
                 }
             }
-            preferences.panels[data.panelId].active = data.active
+            projectPreferences.panels[data.panelId].active = data.active
             // UPDATE ACTIVE EDITOR INDEX
         } else if (data.action == 'addFile') {
             // data.filePath is a string
-            console.log(preferences.panels[data.panelId])
-            preferences.panels[data.panelId].files.push(data.filePath)
-            preferences.panels[data.panelId].active = data.active
+            console.log(projectPreferences.panels[data.panelId])
+            projectPreferences.panels[data.panelId].files.push(data.filePath)
+            projectPreferences.panels[data.panelId].active = data.active
             // UPDATE ACTIVE EDITOR INDEX
         } else if (data.action == 'changeActive') {
             // Has to be an integer
-            for (let i = 0; i < preferences.panels[data.panelId].files.length; i++) {
-                let row = preferences.panels[data.panelId].files[i];
+            for (let i = 0; i < projectPreferences.panels[data.panelId].files.length; i++) {
+                let row = projectPreferences.panels[data.panelId].files[i];
                 if (row == data.active) {
-                    preferences.panels[data.panelId].active = i
+                    projectPreferences.panels[data.panelId].active = i
                     break
                 }
             }
         }
-        updatePreferences()
+        updateProjectPreferences()
     })
 
     ipcMain.handle('closePanel', (event, panelId) => {
-        if (preferences.panels.hasOwnProperty(panelId)) {
+        if (projectPreferences.panels.hasOwnProperty(panelId)) {
             console.log(`deleting ${panelId}`)
-            delete preferences.panels[panelId]
-            console.log(preferences)
-            updatePreferences()
+            delete projectPreferences.panels[panelId]
+            console.log(projectPreferences)
+            updateProjectPreferences()
         }
         return true
     })
 
-    function updatePreferences() {
-        fs.writeFileSync(path.join(__dirname, '.dash/preferences.json'), JSON.stringify(preferences))
+    function updateProjectPreferences() {
+        fs.writeFileSync(preferencesPath, JSON.stringify(projectPreferences))
     }
 
     win.loadFile('ui/main.html')

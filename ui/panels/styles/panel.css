@@ -1,0 +1,33 @@
+.panel-header {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    border-bottom: solid 1px var(--main-color);
+}
+
+.panel-actions {
+    display: flex;
+    color: var(--main-color);
+    border-left: solid 1px var(--main-color);
+    background-color: var(--bg-color);
+}
+
+.panel-action {
+    display: flex;
+    height: 100%;
+    width: 40px;
+}
+
+.panel-action:hover {
+    color: white;
+    background-color: var(--main-color);
+}
+
+.split-panel {
+    padding: 5px;
+    margin: auto;
+}
+
+.close-panel {
+    padding: 5px;
+    margin: auto;
+}

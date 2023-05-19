@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "bootstrap-icons": "^1.10.4",
+    "electron-icon-builder": "^2.0.1",
     "electron-squirrel-startup": "^1.0.0",
     "prismjs": "^1.29.0"
   }

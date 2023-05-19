@@ -1,0 +1,26 @@
+.file-content,
+.file-content:focus {
+    color: transparent;
+    background-color: transparent;
+    overflow: hidden;
+    font-family: 'DashJetMono', Courier, monospace;
+    font-size: 15px;
+    width: calc(100% - 5px);
+    height: 100%;
+    border: 0px;
+    position: absolute;
+    left: 5px;
+    top: 0px;
+    z-index: 2;
+    box-shadow: 0;
+    outline: none;
+    resize: none;
+    padding: 0px;
+    line-height: 19px;
+    caret-color: var(--main-color);
+}
+
+.file-content::selection {
+    color: transparent;
+    background: rgba(var(--main-color-code), 0.4);
+}

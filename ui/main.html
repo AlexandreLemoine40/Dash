@@ -6,12 +6,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="height=device-height, width=device-width, initial-scale=1.0">
     <meta charset="UTF-8" />
-    <link rel="stylesheet" href="./styles/style.css">
-    <link rel="stylesheet" href="./styles/fa/all.css">
-    <link rel="stylesheet" href="./styles/fa/sharp-solid.css">
-    <link rel="stylesheet" href="./styles/fa/sharp-regular.css">
-    <link rel="stylesheet" href="./styles/fa/sharp-light.css">
-    <link rel="stylesheet" href="./styles/line.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./icons/all.css">
+    <link rel="stylesheet" href="./icons/sharp-solid.css">
+    <link rel="stylesheet" href="./icons/sharp-regular.css">
+    <link rel="stylesheet" href="./icons/sharp-light.css">
+    <link rel="stylesheet" href="./editors/styles/editor.css">
+    <link rel="stylesheet" href="./editors/styles/file-content.css">
+    <link rel="stylesheet" href="./editors/styles/line.css">
+
+    <link rel="stylesheet" href="./modals/modal/modal.css">
+    <link rel="stylesheet" href="./modals/styles/modals.css">
+    <link rel="stylesheet" href="./modals/styles/treeModal.css">
+    <link rel="stylesheet" href="./modals/styles/quickFileSearchModal.css">
+
+    <link rel="stylesheet" href="./nightshift/nightshift.css">
+
+    <link rel="stylesheet" href="./panels/styles/panel.css">
+    <link rel="stylesheet" href="./panels/styles/panels.css">
+
+    <link rel="stylesheet" href="./styles/button.css">
+    <link rel="stylesheet" href="./styles/input.css">
+    <link rel="stylesheet" href="./styles/positionning.css">
+    <link rel="stylesheet" href="./styles/scroller.css">
+    <link rel="stylesheet" href="./styles/title-bar.css">
+
+    <link rel="stylesheet" href="./tree/directory/directory.css">
+    <link rel="stylesheet" href="./tree/tree.css">
+
+    <link rel="stylesheet" href="./style.css">
+
+    <link rel="stylesheet" href="../grammars/javascript/syntax.css">
+    <link rel="stylesheet" href="../grammars/css/syntax.css">
+    <link rel="stylesheet" href="../grammars/html/syntax.css">
+    <link rel="stylesheet" href="../grammars/python/syntax.css">
     <title>DashJS</title>
 </head>
 
@@ -32,8 +60,7 @@
             </div>
         </div>
     </div>
-    <div class="container" id="panels-container">
-
+    <div id="panels-container">
         <div id="home-view">
             <div style="text-decoration: underline;">
                 <b>No</b> file is opened
@@ -136,122 +163,28 @@
 
         </div>
     </div>
-    <script src="./public/highlight/highlight.min.js"></script>
-    <script src="./public/IPCManager.js"></script>
-    <script src="./public/Line.js"></script>
-    <script src="./public/Lines.js"></script>
-    <script src="./public/EditorTab.js"></script>
-    <script src="./public/TextDisplay.js"></script>
-    <script src="./public/TextEditor.js"></script>
-    <script src="./public/Editor.js"></script>
-    <script src="./public/Panel.js"></script>
-    <script src="./public/ModalsManager.js"></script>
-    <script src="./public/Directory.js"></script>
-    <script src="./public/File.js"></script>
-    <script src="./public/Tree.js"></script>
-    <script src="./public/Panel.js"></script>
-    <script src="./public/Panels.js"></script>
-    <script src="./public/renderer.js"></script>
-    <script>
-        document.addEventListener('keydown', (event) => {
-            if (event.ctrlKey && event.key == 'b') {
-                ModalsManager.toggleTreeModal()
-            }
-            if (event.ctrlKey && event.key == 'o') {
-                ModalsManager.toggleQuickSearchModal()
-            }
-            if (event.ctrlKey && event.shiftKey && event.key == 'O') {
-                ModalsManager.toggleQuickSearchModal()
-            }
-            if (event.key == 'Escape') {
-                ModalsManager.hideModals()
-            }
-        })
-
-        document.getElementById('tree-search-file').addEventListener('keyup', (event) => {
-            Tree.search(event.target.value)
-        })
-
-        let selectedQuickSearchResultItem = null
-        let limitQuickSearchResultItem
-        let matches = []
-        document.getElementById('quick-file-search-input').addEventListener('keydown', (event) => {
-            if (event.key == 'ArrowDown' || event.key == 'ArrowUp') {
-                event.preventDefault()
-            }
-        })
-        document.getElementById('quick-file-search-input').addEventListener('keyup', (event) => {
-            if (event.key == 'Enter') {
-                // Open the selected file
-                if (event.shiftKey) {
-                    // Open in a new panel
-                    let file = matches[selectedQuickSearchResultItem]
-                    window.electronAPI.openFile(`${file.path}/${file.name}`).then((data) => {
-                        Panel.openFileInNewPanel(data)
-                        ModalsManager.hideModals()
-                    })
-                } else {
-                    // Open in the current panel
-                    let file = matches[selectedQuickSearchResultItem]
-                    window.electronAPI.openFile(`${file.path}/${file.name}`).then((data) => {
-                        Panel.openFile(data)
-                        ModalsManager.hideModals()
-                    })
-                }
-                selectedQuickSearchResultItem = null
-                limitQuickSearchResultItem = undefined
-                matches = []
-                document.getElementById('quick-file-search-input').value = ''
-                document.getElementById('quick-file-search-results').innerHTML = ''
-            } else if (event.key == 'ArrowDown') {
-                event.preventDefault()
-                // Move down the selected
-                if (selectedQuickSearchResultItem < limitQuickSearchResultItem - 1) {
-                    document.querySelectorAll('.quick-file-search-item')[selectedQuickSearchResultItem].classList.remove('active')
-                    selectedQuickSearchResultItem++
-                    document.querySelectorAll('.quick-file-search-item')[selectedQuickSearchResultItem].classList.add('active')
-                }
-            } else if (event.key == 'ArrowUp') {
-                event.preventDefault()
-                // Move up the selected
-                if (selectedQuickSearchResultItem > 0) {
-                    document.querySelectorAll('.quick-file-search-item')[selectedQuickSearchResultItem].classList.remove('active')
-                    selectedQuickSearchResultItem--
-                    document.querySelectorAll('.quick-file-search-item')[selectedQuickSearchResultItem].classList.add('active')
-                }
-
-            } else if (event.target.value.length > 0) {
-                matches = ModalsManager.quickSearch(Tree.getInstance().root, event.target.value)
-                if (matches.length > 0) {
-                    ModalsManager.buildQuickSearchResult(matches)
-                    selectedQuickSearchResultItem = 0
-                    document.querySelectorAll('.quick-file-search-item')[selectedQuickSearchResultItem].classList.add('active')
-                    limitQuickSearchResultItem = matches.length
-                }
-                // Set the active result as first of the list (active class with background color)
-
-            } else {
-                document.getElementById('quick-file-search-results').innerHTML = ''
-            }
-        })
-
-        /*function toggleNightShiftSettings() {
-            let element = document.getElementById('nightshift-settings')
-            let display = 'initial'
-            if (window.getComputedStyle(element).getPropertyValue('display') == 'initial') {
-                display = 'none'
-            }
-            element.style.display = display
-        }*/
-
-        function toggleNightShiftSettings() {
-            if (document.body.classList.contains('nightshift')) {
-                document.body.classList.remove('nightshift')
-            } else {
-                document.body.classList.add('nightshift')
-            }
-        }
-    </script>
+    <!-- Import section -->
+    <script src="./highlight/highlight.min.js"></script>
+    <!-- Text editing relative scripts -->
+    <script src="./editors/classes/Line.js"></script>
+    <script src="./editors/classes/Lines.js"></script>
+    <script src="./editors/classes/EditorTab.js"></script>
+    <script src="./editors/classes/TextDisplay.js"></script>
+    <script src="./editors/classes/TextEditor.js"></script>
+    <script src="./editors/classes/Editor.js"></script>
+    <!-- Editor panels -->
+    <script src="./panels/classes/Panel.js"></script>
+    <script src="./panels/classes/Panels.js"></script>
+    <!-- Application modals -->
+    <script src="./modals/Modals.js"></script>
+    <!-- TreeView -->
+    <script src="./tree/directory/Directory.js"></script>
+    <script src="./tree/file/File.js"></script>
+    <script src="./tree/Tree.js"></script>
+    <!-- Exposing electron context in main world -->
+    <script src="../process/ipc/client/IPCManager.js"></script>
+    <!-- Main script -->
+    <script src="./main.js"></script>
 </body>
 
 </html>

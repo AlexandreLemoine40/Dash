@@ -11,5 +11,3 @@ Run the app using `npm start`.
 
 ## TODO
 > Project structure refactoring for easier development.
-
-> Install EmbeddedJS for view rendering to add the possibility to split HTML files and have a more reliable structure.
